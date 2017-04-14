@@ -1,0 +1,33 @@
+TRIGGERS :
+
+- CONTIENT : Lorsque le CLIENT met un article dans le PANIER, le trigger
+regarde si l'article est deja dans la table CONTIENT : si oui, on ne crée pas
+une nouvelle entrée (car il y aurait redondance de la paire de clé
+NumPanier/NumArticle) mais on ajoute l'article (x fois si le client veux par
+exemple encore 2 * une barrette de RAM) à l'entrée deja existante. Si non, on
+crée une nouvelle entrée dans la table CONTIENT.
+
+
+
+
+TRAITEMENTS :
+- Page des tendances : récupérer les articles les plus vendus pour chaque tags,
+un groupe de tags ou tags confondus.
+
+- Page de recherche : sélection des article ayant les tags voulus (avec ou sans
+fourchette, par exemple un fourchette de prix (rappel : le prix qui est un tag)
+) et triés par différents ordres : alphabétique, mis en vente, popularité.
+On pourra également coupler ce traitement avec le traiteùent suivant.
+
+- Page derecherche 2 : algorithme de détection des noms d'articles se
+rapprochant le plus de la chaine de caractère recherchée. Exemple : si on
+recherche le terme "cp", l'algorithme nous donnera en résultat de recherche
+les cpu car il y a une certaine ressemblance avec le terme recherché. 
+
+- Statistiques clients : croissance des inscriptions par période, moyens de
+paiements les plus utilisés, articles les plus achetés, tags les plus achetés,
+dépense moyenne par panier, ...
+
+-Statistiques vendeur : croissance du nombre de vendeurs par période, moyenne
+des ajouts d'articles par saison, moyenne des annulations de vente par vendeur
+et par article, ...

@@ -1,0 +1,51 @@
+
+Composants pc : Il s'agira de créer une plateforme d'achats/ventes de matériel informatique. Cette plateforme prendra la forme d'un site web où les utilisateurs
+								pourront acheter les articles vendus par des professionnels, à l'image de site existants tels que ldlc , materiel.net ou encore cybertek. Pour vivre,
+								le site prend une part pour chaque transactions.
+
+Site web:
+1: -Page des tendances générale et des tendances pour chaque catégorie (en fonction du nombre d'articles vendus et la note totale de l'article)
+	-Page de chaque article
+	-Page d'acceuil...
+	-Page du panier d'un client
+	-Page du compte client pour gérer/voir les commandes/informations...
+	-...
+
+2: Articles référencés par des tags tels que la marque, la couleur, la puissance, prix, etc... (premier tag : catégorie)
+3: Système de recherche d'article(s) en fonction de différents paramètres (tags, fourchette de prix, etc ...).
+4: Système de points -> Lors de l'ouverture de la page d'un composant, on ajoute un faible nombre de points aux tags du coposant (par exemple 1 point).
+									      Pendant la visite de la page de l'article, possibilité de mettre celui-ci en favoris, cela ajoutera un fort nombre de points aux 	tags du composant
+								    	 (par exemple 3 point).
+5: Système de commentaires et de notes des articles (uniquement achetés : lors de l'achat, un lien spécial envoyé avec la confirmation d'achet dans la boite mail
+   de l'acheteur permettra à celui-ci de noter l'article). Chaque commentaire contient une note. La note globale de tous les commentaire est aussi affichée.
+6: Système de signalement des articles non conformes (si un article obtient par exemple 50 signalements, une notification est envoyée sur les comptes administrateurs
+	 pour qu'au moins une personne effectue une vérification).
+7: Au terme d'un achat le site transmet -les coordonnées de l'acheteur au vendeur (soit par mail soit via un autre moyen qui permet d'être automatisé du coté du vendeur et du site)
+														  -le paiment de l'acheteur moins la part su site.
+
+
+
+Clients:
+1: Création compte client et enregistrement des préférences (favoris) et de l'historique des recherches pour effectuer des propositions similaires.
+2: Il peut mettre un article dans son panier avec un bouton sur la page d'un article.
+3: Il peut acheter en appuyant sur le bouton prévu à cet effet sur la page de son panier.
+4: Les actions 3 et 6 du Site web s'offrent également au client.
+
+
+Admin:
+Il peut voir les stocks disponibles.
+fonctions spéciales -> suppression de commentaires
+									   -> gestion des comptes clients (bannir addresse mail/IP et supprimer les données relatives aux comptes)
+
+
+Vendeur:
+Compte spécial pour vendre en plus d'acheter et obtient des réduction en fonction des ventes de ses articles.
+Les comptes vendeurs étant reservé aux professionnels uniquement, la réduction prendra la forme de coupons de réductions ou code que le professionnel pourra distribiuer
+à ses clients ou garder (cas impossible car un compte vendeur représente une entreprise, c'est pour cela qu'on met en place des codes à distribuer).
+Propriétés: _nb d'articles vendus par rapport à la catégorie de l'article.
+						_nb total d'articles vendus.
+
+
+Note : Pour le MCD, l'entité TAGS contient une liste non exhaustive de tous les tags qui peuvent exister. On aurait voulut faire des spécialisations, généralisations à la
+méthode UML ce qui aurait été beaucoup plus pratique et lisible. Exemple : L'entité Article serait une généralisation de chaque catégorie. Cela aurait permis d'associer la
+propriété "Nb de coeurs" à uniquement la catégorie "Processeur" car cette propriété n'existe par exemple pas pour la catégorie "Disque dur".
