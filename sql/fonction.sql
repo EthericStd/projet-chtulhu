@@ -62,3 +62,14 @@ create or replace function delete_tag(pNumArticle int)
 
     end;
     $$ language plpgsql;
+
+create or replace function maj_article(pNumArticle int, pNombreArticle, NumArticle int)
+    return void
+    as $$
+    begin
+
+    INSERT INTO Tags (NomTags, ValeurTags, NumArticle)
+        VALUES (NomTags, ValeurTags, NumArticle);
+
+    end;
+    $$ language plpgsql;
