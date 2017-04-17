@@ -1,21 +1,15 @@
-create or replace function tendances(limite int)
+create or replace function tendances()
     returns table
+    (ArticlePanier_NumArticle int,
+    ArticlePanier__NbArticlePanier int)
     as $$
-    declare
-    table0 table;
     begin
 
-    select NumArticle, sum(NbArticlePanier) as nb_total
-    into table0
+    select NumArticle, NbArticlePanier
     from ArticlePanier
     where NumPanier in (select NumPanier
                         from Panier
-                        where DateCommandePanier is not null)
-    group by NumArticle
-    order by NbArticlePanier
-    limit limite;
-
-    return table0;
-
+                        where DateCommandePanier is null);
+                    
     end;
     $$ language plpgsql;
