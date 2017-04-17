@@ -1,0 +1,110 @@
+/*Principaux*/
+header
+{
+	background-image: url("img/fond.png");
+	background-size: cover;
+	height: 450px;
+	line-height: 450px;
+	vertical-align: middle;
+}
+
+header h1
+{
+	font-family: "Great Vibes", cursive;
+	font-weight: bold;
+	font-size: 200px;
+	text-align: center;
+	color: white;
+	text-shadow: 3px 3px 3px black;
+	margin: 0;
+}
+
+nav
+{
+	background-color: white;
+}
+
+
+/*nav_bar*/
+
+#nav_bar
+{
+	display: table;
+	margin: auto;
+	width: 1100px;
+	padding-top: 4px;
+}
+
+nav a
+{
+
+	position: relative;
+	font-size: 20px;
+	font-family: "Domine",  serif;
+	text-decoration: none;
+	color: black;
+	letter-spacing: 0.030em;
+
+	padding: 0 30px 0 30px;
+}
+
+nav a:hover,
+nav a:focus
+{
+	opacity: 0.85;
+	transform: translateY(0);
+}
+
+nav a::after
+{
+	content: "";
+	position: absolute;
+	bottom: -3px; right: 30px; left: 30px;
+	height: 2px;
+	background-color: rgb(140,10,10);
+	opacity: 0;
+	transform: translateY(5px);
+	transition: opacity .3s, transform 0.3s;
+}
+
+nav a:hover::after,
+nav a:focus::after
+{
+	opacity: 0.85;
+	transform: translateY(0);
+}
+
+nav ul,
+nav li
+{
+	display: inline;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+nav #links
+{
+	display: table-cell;
+	text-align: right;
+	vertical-align:middle;
+}
+
+nav #logo
+{
+	display: table-cell;
+	width: 70px;
+}
+
+nav #nom
+{
+	display: table-cell;
+	font-family: "Great Vibes", cursive;
+	font-size: 40px;
+	vertical-align:middle;
+}
+
+#nom p
+{
+	margin:0;
+}
