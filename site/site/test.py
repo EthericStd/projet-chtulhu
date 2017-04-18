@@ -2,7 +2,13 @@
 # -*- coding:utf-8 -*-
 
 from flask import *
+import psycopg2
 app = Flask(__name__)
+
+try:
+    conn = psycopg2.connect(dbname="chtulhu")
+except:
+    print("\n##### ERREUR DE CO #####\n")
 
 
 @app.route('/')
