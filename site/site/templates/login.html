@@ -1,39 +1,38 @@
 <!DOCTYPE html>
 <html>
 {% include 'header.html' %}
-  <section>
-    <form methode="post" action="index.html">
+  <form method="post" action="login">
+    <p>
       <p>
-        <p>
-        <label for="pseudo">Adresse mail :</label>
-        <input type="email" name="AdresseMail" id="pseudo" placeholder="Ex: toto123@truc.com" required />
+      <label for="pseudo">Adresse mail :</label>
+      <input type="email" name="AdresseMail" id="pseudo" placeholder="Ex: toto123@truc.com" required />
 
-        </p>
-        <label for="mdp">Mot de passe :</label>
-        <input type="password" name="mdp" id="mdp" placeholder="12 caractères max" size="13" maxlength="12" required />
-
-        <p>
-        <label for="mois">Mois :</label>
-        <select name="mois" id="mois">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-        </select>
-
-        <label for="year">Année :</label>
-        <input type="number" name="year" id="year" min="17" max="25" step="1" />
-        </p>
-        <input type="submit" value="Envoyer" />
       </p>
-    </form>
-  </section>
+      <label for="mdp">Mot de passe :</label>
+      <input type="password" name="mdp" id="mdp" placeholder="12 caractères max" size="13" maxlength="12" required />
+
+      <p>
+      <label for="mois">Mois :</label>
+      <select name="mois" id="mois">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+      </select>
+
+      <label for="year">Année :</label>
+      <input type="number" name="year" id="year" min="17" max="25" step="1" />
+      </p>
+      <input type="submit" value="Envoyer" />
+    </p>
+  </form>
+  {% include 'footer.html' %}
 </html>
