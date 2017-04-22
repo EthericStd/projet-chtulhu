@@ -1,0 +1,45 @@
+#container_formulaire
+{
+    display: table;
+    position: relative;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#container_form
+{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+input
+{
+    background-color: white;
+    box-shadow: 1px 1px 2px #AAAAAA inset;
+    border: 1px #AAAAAA solid;
+    border-radius: 3px;
+    transition: background-color .3s, border-radius .3s;
+}
+
+input:focus
+{
+    background-color: #EEEEEE;
+    border-radius: 5px;
+}
+
+#envoyer
+{
+    border: 3px black double;
+    color: black;
+}
+
+form p
+{
+    color: #222222;
+
+    text-align: right;
+}

@@ -3,9 +3,8 @@ header
 {
 	background-image: url("img/fond.png");
 	background-size: cover;
-	height: 450px;
-	line-height: 450px;
-	vertical-align: middle;
+	height: 350px;
+	line-height: 400px;
 }
 
 header h1

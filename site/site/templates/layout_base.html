@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Domine|ABeeZee|Lobster" rel="stylesheet">
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='body_footer.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='nav_header.css') }}" />
+        <!-- link ici le css de la section qu'on include plus bas -->
+        {% for css in l_css %}
+            <link rel="stylesheet" href="{{ url_for('static', filename=css) }}" />
+        {%endfor%}
+        <title>Chtulhu</title>
+
+    </head>
+
+
+    <body id="body">
+
+        <nav>
+            <div id="nav_bar">
+                <div id="logo">
+                    <img src="../static/img/log_chtulhu.png"/>
+                </div>
+                <div id="nom">
+                    <p>Chtulhu</p>
+                </div>
+                <div id="links">
+                    <ul>
+                        <li><a href="/">Acceuil</a></li>
+                        <li><a href="/login">Se Connecter</a></li>
+                        <li><a href="/lolmdr">Infos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <header>
+            <h1>Chtulhu</h1>
+        </header>
+
+        <!-- include section ici -->
+        {% if section != "" %}
+            {% include section %}
+        {% endif %}
+
+        <footer>
+			<p>Copyright © 2017 - Chtulhu</p>
+		</footer>
+
+</html>

@@ -10,17 +10,26 @@ def connect():
     try:
         conn = psycopg2.connect(dbname="chtulhu")
         print("\nConnecté.\n")
-        cur = conn.cursor()
-        cur.execute("SET search_path TO chtulhu")
-        return cur
     except:
         print("\n##### ERREUR DE CO #####\n")
-
+    cur = conn.cursor()
+    cur.execute("SET search_path TO chtulhu")
+    return cur
 
 @app.route('/')
 def accueil():
-    return render_template('index.html')
+    section = "acceuil.html"
+    l_css = ["acceuil.css"]
+    return render_template('layout_base.html', section=section, l_css=l_css)
 
+@app.route('/articles/')
+def articles():
+    section = "articles.html"
+    l_css = ["articles.css"]
+    articles = [1,2,3]
+    return render_template('layout_base.html', section=section,
+                                               l_css=l_css
+                                               ,articles=articles)
 
 @app.errorhandler(404)
 def err(error):
@@ -40,5 +49,5 @@ def login():
         return render_template('login.html')
 
 if __name__ == '__main__':
-    cur = connect()
+    #cur = connect()
     app.run(debug=True)
