@@ -94,23 +94,21 @@ CREATE TABLE Tags
     NumTags serial,
     NomTags str,
     ValeurTags str,
-    PRIMARY KEY (NumTags)
-);
-
-CREATE TABLE TagsArticle
-(
-    NumTags serial,
     NumArticle serial,
-    PRIMARY KEY (NumTags, NumArticle),
-    FOREIGN KEY (NumTags) REFERENCES Tags,
+    PRIMARY KEY (NumTags),
     FOREIGN KEY (NumArticle) REFERENCES Article
 );
 
-CREATE TABLE HistorsiqueMAJ
+CREATE TABLE MAJStock
 (
     NumHistoriqueMAJ serial,
     DateHistoriqueMAJ date,
+    NbMAJStock int,
+    NumArticle serial,
+    NumVendeur serial,
     PRIMARY KEY (NumHistoriqueMAJ)
+    FOREIGN KEY (NumArticle) REFERENCES Article,
+    FOREIGN KEY (NumVendeur) REFERENCES Vendeur
 );
 
 CREATE TABLE Commentaire
@@ -143,12 +141,13 @@ CREATE TABLE ListeDeSouhait
     FOREIGN KEY (NumClient) REFERENCES Client
 );
 
-CREATE TABLE Visite
+CREATE TABLE HistoriqueVisite
 (
+    NumHistoriqueVisite serial,
+    DateVisite date,
     NumArticle serial,
     NumClient serial,
-    DateVisite date,
-    PRIMARY KEY (NumArticle, NumClient),
+    PRIMARY KEY (NumHistoriqueVisite),
     FOREIGN KEY (NumArticle) REFERENCES Article,
     FOREIGN KEY (NumClient) REFERENCES Client
 );
@@ -157,18 +156,5 @@ CREATE TABLE ArticlePanier
 (
     NumPanier serial,
     NumArticle serial,
-    NbArticlePanier int,
-    FOREIGN KEY (NumPanier) REFERENCES Panier,
-    FOREIGN KEY (NumArticle) REFERENCES Article
-);
-
-CREATE TABLE MAJStock
-(
-    NumHistoriqueMAJ serial,
-    NumArticle serial,
-    NumVendeur serial,
-    NbMAJStock int,
-    FOREIGN KEY (NumHistoriqueMAJ) REFERENCES HistorsiqueMAJ,
-    FOREIGN KEY (NumArticle) REFERENCES Article,
-    FOREIGN KEY (NumVendeur) REFERENCES Vendeur
+    NbArticlePanier int
 );
