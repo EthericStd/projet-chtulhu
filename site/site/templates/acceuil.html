@@ -1,7 +1,7 @@
 <section>
     <div id="container_formulaire">
     <div id="container_form">
-        <form method="post" action="login">
+        <form method="post" action="/login/">
         <fieldset>
         <legend> Se connecter </legend>
 
@@ -12,7 +12,7 @@
 
             <p>
                 <label for="mdp">Mot de passe :</label>
-                <input type="password" name="mdp" id="mdp" size="15" maxlength="100"required />
+                <input type="password" name="mdp" id="mdp" size="15" maxlength="100" />
             </p>
 
             <input id="envoyer" type="submit" value="Envoyer" />
@@ -22,33 +22,33 @@
     </div>
 
     <div id="container_form">
-        <form method="post" action="login">
+        <form method="post" action="/subscription/" >
         <fieldset>
         <legend> Créer un compte </legend>
 
             <p>
                 <label for="mdp">Nom :</label>
-                <input type="password" name="nom" id="nom" placeholder="Ex: Toto" size="15" maxlength="100" required />
+                <input type="text" name="nom" id="nom" placeholder="Ex: Toto" size="15" maxlength="100" required />
             </p>
 
             <p>
                 <label for="mdp">Prénom :</label>
-                <input type="password" name="prenom" id="prenom" placeholder="EX: Dupont" size="15" maxlength="100" required />
+                <input type="text" name="prenom" id="prenom" placeholder="EX: Dupont" size="15" maxlength="100" required />
             </p>
 
             <p>
                 <label for="pseudo">Adresse mail :</label>
-                <input type="email" name="mail" id="mail" placeholder="Ex: toto.dupont@abc.com" size="15" maxlength="100" required />
+                <input type="email" name="mail" id="mail" placeholder="Ex: toto.dupont@abc.com" size="15" maxlength="100" />
             </p>
 
             <p>
                 <label for="mdp">Mot de passe :</label>
-                <input type="password" name="mdp" id="mdp" size="15" maxlength="100" required />
+                <input type="password" name="mdp" id="mdp" size="15" maxlength="100" />
             </p>
 
             <p>
                 <label for="mdp">Confirmation du mot de passe :</label>
-                <input type="password" name="mdpconfirm" id="mdpconfirm" size="15" maxlength="100" required />
+                <input type="password" name="mdpconfirm" id="mdpconfirm" size="15" maxlength="100" />
             </p>
 
             <input id="envoyer" type="submit" value="Envoyer" />
