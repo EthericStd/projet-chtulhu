@@ -41,8 +41,34 @@ create or replace function delete_article(pNumArticle int)
     end;
     $$ language plpgsql;
 
+    create or replace function ajout_client(NomClient str,
+                                             PrenomClient str,
+                                             DateNaissanceClient date,
+                                             MailClient mail,
+                                             MDP str)
+        returns int
+        as $$
+        declare
+        Num int;
+        begin
+
+        INSERT INTO Client (NomClient,
+                            PrenomClient,
+                            DateNaissanceClient,
+                            MailClient,
+                            MDP)
+            VALUES (NomClient,
+                    PrenomClient,
+                    DateNaissanceClient,
+                    MailClient,
+                    MDP)
+            RETURNING NumClient into Num;
+        return Num;
+        end;
+        $$ language plpgsql;
+
 create or replace function ajout_tag(NomTags str, ValeurTags int, NumArticle int)
-    return void
+    returns void
     as $$
     begin
 
@@ -53,7 +79,7 @@ create or replace function ajout_tag(NomTags str, ValeurTags int, NumArticle int
     $$ language plpgsql;
 
 create or replace function delete_tag(pNumArticle int)
-    return void
+    returns void
     as $$
     begin
 
@@ -63,13 +89,27 @@ create or replace function delete_tag(pNumArticle int)
     end;
     $$ language plpgsql;
 
-create or replace function maj_article(pNumArticle int, pNombreArticle, NumArticle int)
-    return void
+create or replace function maj_article(pNumArticle int, pNombreArticle int, NumArticle int)
+    returns void
     as $$
     begin
 
     INSERT INTO Tags (NomTags, ValeurTags, NumArticle)
         VALUES (NomTags, ValeurTags, NumArticle);
+
+    end;
+    $$ language plpgsql;
+
+create or replace function get_infos_client(num int)
+    returns table(nom str, prenom str, datenaissance date, email mail, mdp str)
+    as $$
+    declare
+    begin
+
+    return query
+    select NomClient, PrenomClient, DateNaissanceClient, MailClient, MdpClient
+    from Client
+    where NumClient = num;
 
     end;
     $$ language plpgsql;

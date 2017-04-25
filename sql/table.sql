@@ -3,8 +3,9 @@ CREATE TABLE Client
     NumClient serial,
     NomClient str,
     PrenomClient str,
-    AgeClient int,
+    DateNaissanceClient date,
     MailClient mail,
+    MdpClient str,
     PRIMARY KEY (NumClient)
 );
 
@@ -106,7 +107,7 @@ CREATE TABLE MAJStock
     NbMAJStock int,
     NumArticle serial,
     NumVendeur serial,
-    PRIMARY KEY (NumHistoriqueMAJ)
+    PRIMARY KEY (NumHistoriqueMAJ),
     FOREIGN KEY (NumArticle) REFERENCES Article,
     FOREIGN KEY (NumVendeur) REFERENCES Vendeur
 );

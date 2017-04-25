@@ -18,6 +18,7 @@ def connect():
 
 @app.route('/')
 def accueil():
+    session["user"] = 1
     section = "acceuil.html"
     l_css = ["acceuil.css"]
     return render_template('layout_base.html', section=section, l_css=l_css)
@@ -31,6 +32,22 @@ def articles():
     return render_template('layout_base.html', section=section,
                            l_css=l_css, articles=articles)
 
+@app.route('/compte/<page>/')
+def compte(page):
+    if "user" in session:
+        page = page
+        cur.execute("select * from get_infos_client(" + str(session["user"]) + ")")
+        infos = cur.fetchall()
+        section = "mes_informations.html"
+        l_css = ["mes_informations.css"]
+        return render_template('layout_base.html', section=section,
+                                                   l_css=l_css,
+                                                   infos=infos[0])
+    else:
+        section = "non_connecte.html"
+        l_css = "non_connecte.css"
+        return render_template("layout_base.html", section=section,
+                                                   l_css=l_css)
 
 @app.errorhandler(404)
 def err(error):
@@ -42,7 +59,7 @@ def login():
     if request.method == 'POST':
         cur.execute("SELECT mailClient FROM Client;")
         l_client = cur.fetchall()
-        print l_client
+        print(l_client)
         mailC = request.form["mail"]
         if (len(l_client) != 0):
             i = 0
@@ -61,7 +78,7 @@ def login():
 def subscription():
     cur.execute("SELECT * FROM Client;")
     l_client = cur.fetchall()
-    print l_client
+    print(l_client)
     numC = randrange(20, 30)
     nom = request.form["nom"]
     prenom = request.form["prenom"]
@@ -85,4 +102,6 @@ if __name__ == '__main__':
     conn = connect()
     cur = conn.cursor()
     cur.execute("SET search_path TO chtulhu")
-    app.run(debug=True)
+    app.debug = True
+    app.secret_key = "lolololololol"
+    app.run()

@@ -1,12 +1,9 @@
 create or replace function tendances(limite int)
-    returns table
+    returns table(num int, nb_total int)
     as $$
-    declare
-    table0 table;
     begin
 
-    select NumArticle, sum(NbArticlePanier) as nb_total
-    into table0
+    select NumArticle, sum(NbArticlePanier)
     from ArticlePanier
     where NumPanier in (select NumPanier
                         from Panier
@@ -15,7 +12,19 @@ create or replace function tendances(limite int)
     order by NbArticlePanier
     limit limite;
 
-    return table0;
+    end;
+    $$ language plpgsql;
+
+
+create or replace function recherche(limite int, nom str)
+    returns table(num int)
+    as $$
+    begin
+
+    select NumArticle
+    from Article
+    where LibelléArticle like '%nom%'
+    limit limite;
 
     end;
     $$ language plpgsql;

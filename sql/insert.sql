@@ -12,3 +12,6 @@ INSERT INTO ArticlePanier (NumPanier, NumArticle, NbArticlePanier) VALUES
     (0, 0, 3),
     (0, 0, 4),
     (0, 0, 4);
+
+INSERT INTO Client (NomClient, PrenomCLient, DateNaissanceClient, MailClient, MdpClient) VALUES
+    ('Jean', 'Dupont', '10/11/1111', 'jean@dupont', 'lol');
