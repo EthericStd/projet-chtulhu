@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
 from flask import *
@@ -18,7 +18,7 @@ def connect():
 @app.route('/')
 def accueil():
     session["user"] = 1
-    section = "acceuil.html"
+    section = "accueil.html"
     l_css = []
     return render_template('layout_base.html', section=section, l_css=l_css)
 
@@ -58,17 +58,20 @@ def err(error):
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        cur.execute("SELECT mailClient FROM Client;")
+        cur.execute("SELECT mailClient, mdpClient FROM Client;")
         l_client = cur.fetchall()
         print l_client
         mailC = request.form["mail"]
+        mdpC = request.form["mdp"]
         if (len(l_client) != 0):
             i = 0
             while (i < len(l_client)):
-                if (l_client[i][0] == mailC):
+                if (l_client[i][0] == mailC) and (l_client[i][1] == mdpC):
+                    flash(u"Vous êtes connecté :)")
                     return redirect(url_for('articles'))
                 i += 1
-        return redirect(url_for('accueil'))
+        flash("Informations incorrectes :(")
+        return redirect(url_for('login'))
     else:
         section = "login.html"
         l_css = ["login.css"]
