@@ -1,0 +1,70 @@
+<section>
+    <p>
+        {% for message in get_flashed_messages() %}
+          <div>{{ message }}</div>
+        {% endfor %}
+    </p>
+    <div id="container_formulaire">
+    <div id="container_form">
+        <form method="post" action="/login/">
+        <fieldset>
+        <legend> Se connecter </legend>
+
+            <p>
+                <label for="pseudo">Adresse mail :</label>
+                <input type="email" name="mail" id="mail" size="15" maxlength="100" required />
+            </p>
+
+            <p>
+                <label for="mdp">Mot de passe :</label>
+                <input type="password" name="mdp" id="mdp" size="15" maxlength="100" />
+            </p>
+
+            <input id="envoyer" type="submit" value="Envoyer" />
+
+        </fieldset>
+        </form>
+    </div>
+
+    <div id="container_form">
+        <form method="post" action="/subscription/" >
+        <fieldset>
+        <legend> Créer un compte </legend>
+
+            <p>
+                <label for="nom">Nom :</label>
+                <input type="text" name="nom" id="nom" placeholder="Ex: Toto" size="15" maxlength="100" required />
+            </p>
+
+            <p>
+                <label for="prenom">Prénom :</label>
+                <input type="text" name="prenom" id="prenom" placeholder="Ex: Dupont" size="15" maxlength="100" required />
+            </p>
+
+            <p>
+                <label for="date_naissance">Date de naissance :</label>
+                <input type="date" name="date_naissance" id="date_naissance" placeholder="Ex: 12/12/1234" size="15" maxlength="10" required />
+            </p>
+
+            <p>
+                <label for="pseudo">Adresse mail :</label>
+                <input type="email" name="mail" id="mail" placeholder="Ex: toto.dupont@abc.com" size="15" maxlength="100" required />
+            </p>
+
+            <p>
+                <label for="mdp">Mot de passe :</label>
+                <input type="password" name="mdp" id="mdp" size="15" maxlength="100" required />
+            </p>
+
+            <p>
+                <label for="mdpconfirm">Confirmation du mot de passe :</label>
+                <input type="password" name="mdpconfirm" id="mdpconfirm" size="15" maxlength="100" required />
+            </p>
+
+            <input id="envoyer" type="submit" value="Envoyer" />
+
+        </fieldset>
+        </form>
+    </div>
+    </div>
+</section>
