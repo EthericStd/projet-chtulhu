@@ -30,7 +30,13 @@
                 <div id="links">
                     <ul>
                         <li><a href="/">Acceuil</a></li>
-                        <li><a href="/login">Se Connecter</a></li>
+                        <!-- Différents liens selon si
+                        l'utilisateur est connecté ou non. -->
+                        {% if user %}
+                            <li><a href="/compte/1/">Mon Compte</a></li>
+                        {% else %}
+                            <li><a href="/login">Se Connecter</a></li>
+                        {% endif %}
                         <li><a href="/lolmdr">Infos</a></li>
                     </ul>
                 </div>

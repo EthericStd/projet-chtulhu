@@ -17,7 +17,11 @@ def connect():
 
 @app.route('/')
 def accueil():
-    session["user"] = 1
+    if ('user' in session):
+        section = "accueil.html"
+        l_css = []
+        return render_template('layout_base.html', section=section,
+                               l_css=l_css, user=session['user'])
     section = "accueil.html"
     l_css = []
     return render_template('layout_base.html', section=section, l_css=l_css)
@@ -25,6 +29,13 @@ def accueil():
 
 @app.route('/articles/')
 def articles():
+    if ('user' in session):
+        section = "articles.html"
+        l_css = ["articles.css"]
+        articles = [1, 2, 3]
+        return render_template('layout_base.html', section=section,
+                               l_css=l_css, articles=articles,
+                               user=session['user'])
     section = "articles.html"
     l_css = ["articles.css"]
     articles = [1, 2, 3]
@@ -32,33 +43,42 @@ def articles():
                            l_css=l_css, articles=articles)
 
 
-@app.route('/compte/<page>/')
+@app.route('/compte/<int:page>/')
 def compte(page):
     if "user" in session:
         page = page
-        cur.execute("select * from get_infos_client(" + str(session["user"]) + ")")
+        # cur.execute("select * from get_infos_client(" + str(session["user"]) + ")")
+        cur.execute("SELECT * FROM Client WHERE\
+                    numClient='"+str(session['user'])+"'")
         infos = cur.fetchall()
         section = "mes_informations.html"
         l_css = ["mes_informations.css"]
-        return render_template('layout_base.html', section=section,
-                                                   l_css=l_css,
-                                                   infos=infos[0])
+        return render_template('layout_base.html',
+                               section=section, l_css=l_css, infos=infos,
+                               user=session['user'])
     else:
         section = "non_connecte.html"
         l_css = "non_connecte.css"
-        return render_template("layout_base.html", section=section,
-                                                   l_css=l_css)
+        return render_template("layout_base.html",
+                               section=section, l_css=l_css)
+
+
+@app.route('/compte/')
+def redir_compte():
+    return redirect('/compte/1/')
 
 
 @app.errorhandler(404)
 def err(error):
+    session.pop('user', None)  # Pour les tests.
     return ("ERROR {} CHTULHU NOT FOUND (lol)".format(error.code), error.code)
 
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        cur.execute("SELECT mailClient, mdpClient FROM Client;")
+        cur.execute("SELECT mailClient, mdpClient, prenomClient, numClient\
+                    FROM Client;")
         l_client = cur.fetchall()
         print l_client
         mailC = request.form["mail"]
@@ -67,7 +87,8 @@ def login():
             i = 0
             while (i < len(l_client)):
                 if (l_client[i][0] == mailC) and (l_client[i][1] == mdpC):
-                    flash(u"Vous êtes connecté :)")
+                    flash(u"Vous êtes connecté. Bonjour "+l_client[i][2]+" :)")
+                    session['user'] = l_client[i][3]
                     return redirect(url_for('articles'))
                 i += 1
         flash("Informations incorrectes :(")
@@ -75,7 +96,8 @@ def login():
     else:
         section = "login.html"
         l_css = ["login.css"]
-        return render_template('layout_base.html', section=section, l_css=l_css)
+        return render_template('layout_base.html',
+                               section=section, l_css=l_css)
 
 
 @app.route('/subscription/', methods=['POST'])
@@ -96,10 +118,12 @@ def subscription():
                 if (l_client[i][0] == mailC):
                     section = "accueil.html"
                     l_css = []
-                    return render_template('layout_base.html', section=section, l_css=l_css)
+                    return render_template('layout_base.html',
+                                           section=section, l_css=l_css)
                 i += 1
-        query = "INSERT INTO Client (nomClient, prenomClient, DateNaissance, mailClient, MdpClient) \
-                 VALUES ('"+nom+"', '"+prenom+"','"+datena+"', '"+mailC+"', '"+mdpC+"');"
+        query = "INSERT INTO Client (nomClient, prenomClient, DateNaissance,\
+                 mailClient, MdpClient) VALUES ('"+nom+"', '"+prenom+"',\
+                 '"+datena+"', '"+mailC+"', '"+mdpC+"');"
         cur.execute(query)
         conn.commit()
         return redirect(url_for('articles'))
