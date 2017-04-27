@@ -3,7 +3,6 @@
 
 from flask import *
 import psycopg2
-from random import randrange
 app = Flask(__name__)
 
 
@@ -20,7 +19,7 @@ def connect():
 def accueil():
     session["user"] = 1
     section = "acceuil.html"
-    l_css = ["acceuil.css"]
+    l_css = []
     return render_template('layout_base.html', section=section, l_css=l_css)
 
 
@@ -31,6 +30,7 @@ def articles():
     articles = [1, 2, 3]
     return render_template('layout_base.html', section=section,
                            l_css=l_css, articles=articles)
+
 
 @app.route('/compte/<page>/')
 def compte(page):
@@ -49,6 +49,7 @@ def compte(page):
         return render_template("layout_base.html", section=section,
                                                    l_css=l_css)
 
+
 @app.errorhandler(404)
 def err(error):
     return ("ERROR {} CHTULHU NOT FOUND (lol)".format(error.code), error.code)
@@ -59,7 +60,7 @@ def login():
     if request.method == 'POST':
         cur.execute("SELECT mailClient FROM Client;")
         l_client = cur.fetchall()
-        print(l_client)
+        print l_client
         mailC = request.form["mail"]
         if (len(l_client) != 0):
             i = 0
@@ -67,36 +68,40 @@ def login():
                 if (l_client[i][0] == mailC):
                     return redirect(url_for('articles'))
                 i += 1
-        return render_template('acceuil.html')
+        return redirect(url_for('accueil'))
     else:
         section = "login.html"
-        l_css = ["acceuil.html"]
+        l_css = ["login.css"]
         return render_template('layout_base.html', section=section, l_css=l_css)
 
 
 @app.route('/subscription/', methods=['POST'])
 def subscription():
-    cur.execute("SELECT * FROM Client;")
+    cur.execute("SELECT mailClient FROM Client;")
     l_client = cur.fetchall()
-    print(l_client)
-    numC = randrange(20, 30)
+    print l_client
     nom = request.form["nom"]
     prenom = request.form["prenom"]
+    datena = request.form["date_naissance"]
     mailC = request.form["mail"]
-    if (len(l_client) != 0):
-        i = 0
-        while (i < len(l_client)):
-            if (l_client[i][4] == mailC):
-                return render_template('acceuil.html')
-            if (l_client[i][0] == numC):
-                numC = randrange(20, 30)
-                i = -1
-            i += 1
-    query = "INSERT INTO Client (numClient, nomClient, prenomClient, mailClient) \
-             VALUES ('"+str(numC)+"', '"+nom+"', '"+prenom+"', '"+mailC+"');"
-    cur.execute(query)
-    conn.commit()
-    return redirect(url_for('articles'))
+    mdpC = request.form["mdp"]
+    mdpConfC = request.form["mdpconfirm"]
+    if (mdpC == mdpConfC):
+        if (len(l_client) != 0):
+            i = 0
+            while (i < len(l_client)):
+                if (l_client[i][0] == mailC):
+                    section = "accueil.html"
+                    l_css = []
+                    return render_template('layout_base.html', section=section, l_css=l_css)
+                i += 1
+        query = "INSERT INTO Client (nomClient, prenomClient, DateNaissance, mailClient, MdpClient) \
+                 VALUES ('"+nom+"', '"+prenom+"','"+datena+"', '"+mailC+"', '"+mdpC+"');"
+        cur.execute(query)
+        conn.commit()
+        return redirect(url_for('articles'))
+    flash("Les mots de passe ne sont pas identiques.")
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     conn = connect()
