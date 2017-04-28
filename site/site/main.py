@@ -70,7 +70,6 @@ def redir_compte():
 
 @app.errorhandler(404)
 def err(error):
-    session.pop('user', None)  # Pour les tests.
     return ("ERROR {} CHTULHU NOT FOUND (lol)".format(error.code), error.code)
 
 
@@ -93,6 +92,8 @@ def login():
                 i += 1
         flash("Informations incorrectes :(")
         return redirect(url_for('login'))
+    elif (request.method == 'GET') and ('user' in session):
+        return redirect(url_for('compte'))
     else:
         section = "login.html"
         l_css = ["login.css"]
@@ -100,35 +101,44 @@ def login():
                                section=section, l_css=l_css)
 
 
-@app.route('/subscription/', methods=['POST'])
+@app.route('/logout/')
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('accueil'))
+
+
+@app.route('/subscription/', methods=['GET', 'POST'])
 def subscription():
-    cur.execute("SELECT mailClient FROM Client;")
-    l_client = cur.fetchall()
-    print l_client
-    nom = request.form["nom"]
-    prenom = request.form["prenom"]
-    datena = request.form["date_naissance"]
-    mailC = request.form["mail"]
-    mdpC = request.form["mdp"]
-    mdpConfC = request.form["mdpconfirm"]
-    if (mdpC == mdpConfC):
-        if (len(l_client) != 0):
-            i = 0
-            while (i < len(l_client)):
-                if (l_client[i][0] == mailC):
-                    section = "accueil.html"
-                    l_css = []
-                    return render_template('layout_base.html',
-                                           section=section, l_css=l_css)
-                i += 1
-        query = "INSERT INTO Client (nomClient, prenomClient, DateNaissance,\
-                 mailClient, MdpClient) VALUES ('"+nom+"', '"+prenom+"',\
-                 '"+datena+"', '"+mailC+"', '"+mdpC+"');"
-        cur.execute(query)
-        conn.commit()
-        return redirect(url_for('articles'))
-    flash("Les mots de passe ne sont pas identiques.")
-    return redirect(url_for('login'))
+    if request.method == 'POST':
+        cur.execute("SELECT mailClient FROM Client;")
+        l_client = cur.fetchall()
+        print l_client
+        nom = request.form["nom"]
+        prenom = request.form["prenom"]
+        datena = request.form["date_naissance"]
+        mailC = request.form["mail"]
+        mdpC = request.form["mdp"]
+        mdpConfC = request.form["mdpconfirm"]
+        if (mdpC == mdpConfC):
+            if (len(l_client) != 0):
+                i = 0
+                while (i < len(l_client)):
+                    if (l_client[i][0] == mailC):
+                        section = "accueil.html"
+                        l_css = []
+                        return render_template('layout_base.html',
+                                               section=section, l_css=l_css)
+                    i += 1
+            query = "INSERT INTO Client (nomClient, prenomClient, DateNaissance,\
+                     mailClient, MdpClient) VALUES ('"+nom+"', '"+prenom+"',\
+                     '"+datena+"', '"+mailC+"', '"+mdpC+"');"
+            cur.execute(query)
+            conn.commit()
+            return redirect(url_for('articles'))
+        flash("Les mots de passe ne sont pas identiques.")
+        return redirect(url_for('login'))
+    else:
+        abort(404)
 
 if __name__ == '__main__':
     conn = connect()
