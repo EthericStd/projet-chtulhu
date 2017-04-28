@@ -1,0 +1,54 @@
+#container_section
+{
+    margin: auto;
+    height: 300px;
+    border: 3px black double;
+}
+
+#container_nav
+{
+    float: left;
+    text-align: left;
+    border-right: 3px black double;
+    width: 20%;
+    height: 100%;
+    line-height: 1.4em;
+    padding-top: 5px;
+    font-size: 16px;
+}
+
+#container_article
+{
+    text-align: left;
+    width: 40%;
+    height: 100%;
+    padding-left: 40%;
+    line-height: 2em;
+}
+
+i
+{
+    font-style: italic;
+}
+
+#container_section ul
+{
+    list-style-type: none;
+}
+
+#group
+{
+    list-style: square;
+}
+
+#container_section a
+{
+    text-decoration: none;
+    color: #0000BF;
+    transition: color .3s;
+}
+
+#container_section a:hover
+{
+    color: #7E0093;
+}

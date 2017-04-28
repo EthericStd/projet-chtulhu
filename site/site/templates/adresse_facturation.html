@@ -1,0 +1,29 @@
+<section>
+    <div id="container_section">
+        <div id="container_nav">
+            <ul>
+                <li id="group">Gérer mon compte</li>
+                <li><a href="#">Mes informations</a></li>
+                <li><a href="#">Changer mon mot de passe</a></li><br/>
+                <li id="group">Ajouter / Modifier</li>
+                <li><a href="#">Moyen de paiement</a></li>
+                <li><a href="#">Adresse de livraison</a></li>
+                <li><a href="#">Adresse de facturation</a></li><br/>
+                <li id="group"><a href='/logout/'>Déconexion</a></li>
+            </ul>
+        </div>
+
+        <div id="container_article">
+            <ul>
+                <li><i>Nom</i> : {{infos[0]}}</li>
+                <li><i>Prénom</i> : {{infos[1]}}</li>
+                <li><i>Date de naissance</i> : {{infos[2]}}</li>
+                <li><i>AdresseMail</i> : {{infos[3]}}</li>
+                <li><i>Mot de passe</i> : {{infos[4]}}</li>
+                <li><i>Moyens de paiement</i> : <a href="#">Cliquer ici</a></li>
+                <li><i>Adresse de livraison</i> : <a href="#">Cliquer ici</a></li>
+                <li><i>Adresse de facturation</i> : <a href="#">Cliquer ici</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
