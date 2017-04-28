@@ -1,9 +1,5 @@
 <section>
-    <p>
-        {% for message in get_flashed_messages() %}
-          <div>{{ message }}</div>
-        {% endfor %}
-    </p>
+    {% include 'message.html' %}
     <div id="container_formulaire">
     <div id="container_form">
         <form method="post" action="/login/">
