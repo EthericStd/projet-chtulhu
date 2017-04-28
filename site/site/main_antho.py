@@ -43,18 +43,17 @@ def articles():
                            l_css=l_css, articles=articles)
 
 
-@app.route('/compte/<int:page>/')
+@app.route('/compte/<page>/')
 def compte(page):
     if "user" in session:
         page = page
-        # cur.execute("select * from get_infos_client(" + str(session["user"]) + ")")
-        cur.execute("SELECT * FROM Client WHERE\
-                    numClient='"+str(session['user'])+"'")
+        cur.execute("select *\
+                    from get_infos_client(" + str(session["user"]) + ")")
         infos = cur.fetchall()
         section = "mes_informations.html"
         l_css = ["mes_informations.css"]
         return render_template('layout_base.html',
-                               section=section, l_css=l_css, infos=infos,
+                               section=section, l_css=l_css, infos=infos[0],
                                user=session['user'])
     else:
         section = "non_connecte.html"
@@ -65,7 +64,7 @@ def compte(page):
 
 @app.route('/compte/')
 def redir_compte():
-    return redirect('/compte/1/')
+    return redirect('/compte/mes_informations/')
 
 
 @app.errorhandler(404)
@@ -76,23 +75,11 @@ def err(error):
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        cur.execute("SELECT mailClient, mdpClient, prenomClient, numClient\
-                    FROM Client;")
-        l_client = cur.fetchall()
         mailC = request.form["mail"]
         mdpC = request.form["mdp"]
-        if (len(l_client) != 0):
-            i = 0
-            while (i < len(l_client)):
-                if (l_client[i][0] == mailC) and (l_client[i][1] == mdpC):
-                    flash(u"Vous êtes connecté. Bonjour "+l_client[i][2]+" :)")
-                    session['user'] = l_client[i][3]
-                    return redirect(url_for('articles'))
-                i += 1
-        flash("Informations incorrectes :(")
-        return redirect(url_for('login'))
+        return log(mailC, mdpC)
     elif (request.method == 'GET') and ('user' in session):
-        return redirect(url_for('compte'))
+        return redirect(url_for('redir_compte'))
     else:
         section = "login.html"
         l_css = ["login.css"]
@@ -111,6 +98,7 @@ def subscription():
     if request.method == 'POST':
         cur.execute("SELECT mailClient FROM Client;")
         l_client = cur.fetchall()
+        print l_client
         nom = request.form["nom"]
         prenom = request.form["prenom"]
         datena = request.form["date_naissance"]
@@ -127,16 +115,34 @@ def subscription():
                         return render_template('layout_base.html',
                                                section=section, l_css=l_css)
                     i += 1
-            query = "INSERT INTO Client (nomClient, prenomClient, DateNaissance,\
+            query = "INSERT INTO Client (nomClient, prenomClient, DateNaissanceClient,\
                      mailClient, MdpClient) VALUES ('"+nom+"', '"+prenom+"',\
                      '"+datena+"', '"+mailC+"', '"+mdpC+"');"
             cur.execute(query)
             conn.commit()
-            return redirect(url_for('articles'))
+            return log(mailC, mdpC)
         flash("Les mots de passe ne sont pas identiques.")
         return redirect(url_for('login'))
     else:
         abort(404)
+
+
+def log(mailC, mdpC):
+    cur.execute("SELECT mailClient, mdpClient, prenomClient, numClient\
+                FROM Client;")
+    l_client = cur.fetchall()
+    if (len(l_client) != 0):
+        i = 0
+        while (i < len(l_client)):
+            if (l_client[i][0] == mailC) and (l_client[i][1] == mdpC):
+                flash(u"Vous êtes connecté.\
+                      Bonjour {} :)".format(l_client[i][2]))
+                session['user'] = l_client[i][3]
+                return redirect(url_for('articles'))
+            i += 1
+    flash("Informations incorrectes :(")
+    return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     conn = connect()
