@@ -79,7 +79,6 @@ def login():
         cur.execute("SELECT mailClient, mdpClient, prenomClient, numClient\
                     FROM Client;")
         l_client = cur.fetchall()
-        print l_client
         mailC = request.form["mail"]
         mdpC = request.form["mdp"]
         if (len(l_client) != 0):
@@ -112,7 +111,6 @@ def subscription():
     if request.method == 'POST':
         cur.execute("SELECT mailClient FROM Client;")
         l_client = cur.fetchall()
-        print l_client
         nom = request.form["nom"]
         prenom = request.form["prenom"]
         datena = request.form["date_naissance"]

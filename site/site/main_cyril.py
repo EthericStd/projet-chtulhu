@@ -23,8 +23,8 @@ def accueil():
         return render_template('layout_base.html', section=section,
                                l_css=l_css, user=session['user'])
     section = "accueil.html"
-    l_css = []
-    return render_template('layout_base.html', section=section, l_css=l_css)
+    l_css = ["accueil.css"]
+    return render_template("layout_base.html", section=section, l_css=l_css)
 
 
 @app.route('/articles/')
@@ -43,30 +43,67 @@ def articles():
                            l_css=l_css, articles=articles)
 
 
-@app.route('/compte/<int:page>/')
-def compte(page):
+@app.route('/compte/mes_informations/', methods=['GET'])
+def compte():
     if "user" in session:
-        page = page
-        # cur.execute("select * from get_infos_client(" + str(session["user"]) + ")")
-        cur.execute("SELECT * FROM Client WHERE\
-                    numClient='"+str(session['user'])+"'")
+        cur.execute("select * from get_infos_client(" + str(session["user"]) + ")")
         infos = cur.fetchall()
         section = "mes_informations.html"
         l_css = ["mes_informations.css"]
         return render_template('layout_base.html',
-                               section=section, l_css=l_css, infos=infos,
+                               section=section, l_css=l_css, infos=infos[0],
                                user=session['user'])
     else:
         section = "non_connecte.html"
-        l_css = "non_connecte.css"
+        l_css = ["non_connecte.css"]
         return render_template("layout_base.html",
                                section=section, l_css=l_css)
 
 
+@app.route('/compte/changer_mdp/', methods=['GET'])
+def changer_mdp():
+    if "user" in session:
+        section = "changer_mdp.html"
+        l_css = ["changer_mdp.css"]
+        return render_template('layout_base.html',
+                               section=section, l_css=l_css,
+                               user=session['user'])
+    else:
+        return redirect('/non_connecte/')
+
+
+@app.route('/compte/changer_mdp/', methods=['POST'])
+def changer_mdp_():
+    if "user" in session:
+        ancien_mdp = request.form["ancien_mdp"]
+        new_mdp = request.form["new_mdp"]
+        new_mdp_confirm = request.form["new_mdp_confirm"]
+        cur.execute("select * from get_infos_client(" + str(session["user"]) + ")")
+        mdp = cur.fetchall()[0][4]
+        if mdp != ancien_mdp:
+            flash("L'ancien mot de passe n'est pas identique.")
+            return redirect("compte/changer_mdp/")
+        elif new_mdp != new_mdp_confirm:
+            flash("Les nouveaux mots de passe ne sont pas identiques.")
+            return redirect("compte/changer_mdp/")
+        else:
+            cur.execute("select changer_mdp(" + str(session["user"]) + ", '" + str(new_mdp) + "')")
+            conn.commit()
+            return redirect("/compte/mes_informations/")
+    else:
+        return redirect("/non_connecte/")
+
+
 @app.route('/compte/')
 def redir_compte():
-    return redirect('/compte/1/')
+    return redirect('/compte/mes_informations/')
 
+@app.route('/non_connecte/')
+def non_connect():
+    section = "non_connecte.html"
+    l_css = ["non_connecte.css"]
+    return render_template("layout_base.html",
+                            section=section, l_css=l_css)
 
 @app.errorhandler(404)
 def err(error):
@@ -79,7 +116,6 @@ def login():
         cur.execute("SELECT mailClient, mdpClient, prenomClient, numClient\
                     FROM Client;")
         l_client = cur.fetchall()
-        print l_client
         mailC = request.form["mail"]
         mdpC = request.form["mdp"]
         if (len(l_client) != 0):
@@ -93,7 +129,7 @@ def login():
         flash("Informations incorrectes :(")
         return redirect(url_for('login'))
     elif (request.method == 'GET') and ('user' in session):
-        return redirect(url_for('compte'))
+        return redirect(url_for('redir_compte'))
     else:
         section = "login.html"
         l_css = ["login.css"]
@@ -112,7 +148,6 @@ def subscription():
     if request.method == 'POST':
         cur.execute("SELECT mailClient FROM Client;")
         l_client = cur.fetchall()
-        print l_client
         nom = request.form["nom"]
         prenom = request.form["prenom"]
         datena = request.form["date_naissance"]
@@ -125,11 +160,11 @@ def subscription():
                 while (i < len(l_client)):
                     if (l_client[i][0] == mailC):
                         section = "accueil.html"
-                        l_css = []
+                        l_css = ["accueil.css"]
                         return render_template('layout_base.html',
                                                section=section, l_css=l_css)
                     i += 1
-            query = "INSERT INTO Client (nomClient, prenomClient, DateNaissance,\
+            query = "INSERT INTO Client (nomClient, prenomClient, DateNaissanceClient,\
                      mailClient, MdpClient) VALUES ('"+nom+"', '"+prenom+"',\
                      '"+datena+"', '"+mailC+"', '"+mdpC+"');"
             cur.execute(query)

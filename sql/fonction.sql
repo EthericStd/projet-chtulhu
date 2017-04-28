@@ -78,7 +78,7 @@ create or replace function ajout_tag(NomTags str, ValeurTags int, NumArticle int
     end;
     $$ language plpgsql;
 
-create or replace function delete_tag(pNumArticle int)
+create or replace function delete_tag(pNumArticle int, Nomtag str)
     returns void
     as $$
     begin
@@ -110,6 +110,18 @@ create or replace function get_infos_client(num int)
     select NomClient, PrenomClient, DateNaissanceClient, MailClient, MdpClient
     from Client
     where NumClient = num;
+
+    end;
+    $$ language plpgsql;
+
+create or replace function changer_mdp(pNum int, pMdp str)
+    returns void
+    as $$
+    begin
+
+    update Client
+        set MdpClient = pMdp
+        where NumClient = 1;
 
     end;
     $$ language plpgsql;

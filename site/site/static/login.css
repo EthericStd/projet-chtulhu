@@ -4,10 +4,14 @@ section
     color: black;
 }
 
+section p
+{
+    text-align: center;
+}
+
 #container_formulaire
 {
     display: table;
-    position: relative;
     margin: auto;
     margin-top: 50px;
     margin-bottom: 50px;
@@ -25,6 +29,7 @@ section
 input
 {
     background-color: white;
+    color: black;
     box-shadow: 1px 1px 2px #AAAAAA inset;
     border: 1px #AAAAAA solid;
     border-radius: 3px;
@@ -45,7 +50,5 @@ input:focus
 
 form p
 {
-    color: #222222;
-
     text-align: right;
 }
