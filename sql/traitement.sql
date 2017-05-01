@@ -1,15 +1,15 @@
 create or replace function tendances(limite int)
-    returns table(num int, nb_total int)
+    returns table(num int, nombre_totale bigint)
     as $$
     begin
 
+    return query
     select NumArticle, sum(NbArticlePanier)
     from ArticlePanier
     where NumPanier in (select NumPanier
                         from Panier
                         where DateCommandePanier is not null)
     group by NumArticle
-    order by NbArticlePanier
     limit limite;
 
     end;
@@ -21,9 +21,10 @@ create or replace function recherche(limite int, nom str)
     as $$
     begin
 
+    return query
     select NumArticle
     from Article
-    where LibelléArticle like '%nom%'
+    where NomArticle like '%'||nom||'%'
     limit limite;
 
     end;
