@@ -3,6 +3,7 @@
 
 from flask import *
 import psycopg2
+from liste_article import *
 app = Flask(__name__)
 
 
@@ -32,21 +33,22 @@ def articles():
     if ('user' in session):
         section = "articles.html"
         l_css = ["articles.css"]
-        articles = [1, 2, 3]
+        cur.execute("SELECT numArticle, nomArticle, descriptionArticle FROM Article")
+        l_articles = cur.fetchall()
+        # articles = [carte_mere, carte_graphique]
         return render_template('layout_base.html', section=section,
-                               l_css=l_css, articles=articles,
+                               l_css=l_css, articles=l_articles,
                                user=session['user'])
     section = "articles.html"
     l_css = ["articles.css"]
-    articles = [1, 2, 3]
+    articles = [carte_graphique, carte_mere]
     return render_template('layout_base.html', section=section,
                            l_css=l_css, articles=articles)
 
 
-@app.route('/compte/<page>/')
-def compte(page):
+@app.route('/compte/mes_informations/')
+def compte():
     if "user" in session:
-        page = page
         cur.execute("select *\
                     from get_infos_client(" + str(session["user"]) + ")")
         infos = cur.fetchall()
@@ -98,7 +100,6 @@ def subscription():
     if request.method == 'POST':
         cur.execute("SELECT mailClient FROM Client;")
         l_client = cur.fetchall()
-        print l_client
         nom = request.form["nom"]
         prenom = request.form["prenom"]
         datena = request.form["date_naissance"]
@@ -110,19 +111,95 @@ def subscription():
                 i = 0
                 while (i < len(l_client)):
                     if (l_client[i][0] == mailC):
-                        section = "accueil.html"
-                        l_css = []
-                        return render_template('layout_base.html',
-                                               section=section, l_css=l_css)
+                        flash(u"Adresse mail déjà utilisée :(")
+                        return redirect(url_for("login"))
                     i += 1
-            query = "INSERT INTO Client (nomClient, prenomClient, DateNaissanceClient,\
-                     mailClient, MdpClient) VALUES ('"+nom+"', '"+prenom+"',\
+            query = "INSERT INTO Client (nomClient, prenomClient,\
+                     DateNaissanceClient, mailClient, MdpClient)\
+                     VALUES ('"+nom+"', '"+prenom+"',\
                      '"+datena+"', '"+mailC+"', '"+mdpC+"');"
             cur.execute(query)
             conn.commit()
-            return log(mailC, mdpC)
+            url = log(mailC, mdpC)
+            set_adresse_livraison()
+            set_adresse_facturation()
+            set_carte_paiement()
+            set_panier()
+            return url
         flash("Les mots de passe ne sont pas identiques.")
         return redirect(url_for('login'))
+    else:
+        abort(404)
+
+
+@app.route('/non_connecte/')
+def non_connect():
+    section = "non_connecte.html"
+    l_css = ["non_connecte.css"]
+    return render_template("layout_base.html",
+                           section=section, l_css=l_css)
+
+
+@app.route('/panier/')
+def panier():
+    if ('user' in session):
+        query = "SELECT numArticle, nbArticlePanier FROM ArticlePanier\
+                WHERE numPanier=\
+                (SELECT numPanier FROM Panier\
+                WHERE numClient='"+str(session['user'])+"');"
+        cur.execute(query)
+        panier = cur.fetchall()
+        i = 0
+        for article in panier:
+            query = "SELECT nomArticle FROM Article\
+                     WHERE numArticle='"+str(article[0])+"';"
+            cur.execute(query)
+            article = article + (cur.fetchone()[0],)
+            panier[i] = article
+            i += 1
+        section = "panier.html"
+        l_css = ["panier.css"]
+        return render_template("layout_base.html",
+                               section=section, l_css=l_css,
+                               panier=panier, user=session['user'])
+    else:
+        return redirect(url_for('non_connecte'))
+
+
+@app.route('/ajout_panier/<int:id_article>/', methods=['GET', 'POST'])
+def ajout_panier(id_article):
+    if request.method == 'POST':
+        id_article = id_article
+        if ('user' in session):
+            query = "SELECT numPanier FROM Panier\
+                     WHERE numClient='"+str(session['user'])+"';"
+            cur.execute(query)
+            numP = cur.fetchone()[0]
+            nbA = request.form['nbArticle']
+            cur.execute("INSERT INTO ArticlePanier\
+                        VALUES ('"+str(numP)+"',\
+                        '"+str(id_article)+"', '"+str(nbA)+"')")
+            conn.commit()
+            return redirect(url_for('panier'))
+        else:
+            return redirect(url_for('non_connecte'))
+    else:
+        abort(404)
+
+
+@app.route('/commande_panier/', methods=['GET', 'POST'])
+def commande_panier():
+    if request.method == "POST":
+        if ('user' in session):
+            if verif_info():
+                section = "commande_panier.html"
+                l_css = ["panier.css"]
+            return render_template("layout_base.html", section=section,
+                                   l_css=l_css, user=session['user'])
+            flash(u"Veuillez remplir vos informations de paiement et de livraison.")
+            return redirect(url_for("compte"))
+        else:
+            return redirect(url_for('non_connecte'))
     else:
         abort(404)
 
@@ -142,6 +219,52 @@ def log(mailC, mdpC):
             i += 1
     flash("Informations incorrectes :(")
     return redirect(url_for('login'))
+
+
+def set_adresse_facturation():
+    cur.execute("INSERT INTO AdresseFacturation (numClient)\
+                VALUES ('"+str(session['user'])+"');")
+    conn.commit()
+
+
+def set_adresse_livraison():
+    cur.execute("INSERT INTO AdresseLivraison (numClient)\
+                VALUES ('"+str(session['user'])+"');")
+    conn.commit()
+
+
+def set_carte_paiement():
+    cur.execute("INSERT INTO CartePaienment (numClient)\
+                VALUES ('"+str(session['user'])+"');")
+    conn.commit()
+
+
+def set_panier():
+    cur.execute("INSERT INTO Panier (numClient)\
+                VALUES ('"+str(session['user'])+"');")
+    conn.commit()
+
+
+def verif_info():
+    cur.execute("SELECT * FROM AdresseLivraison\
+                WHERE numClient='"+str(session['user'])+"';")
+    l_infos = cur.fetchall()
+    for info in l_infos:
+        if (None in info):
+            return False
+    cur.execute("SELECT * FROM AdresseFacturation\
+                WHERE numClient='"+str(session['user'])+"';")
+    l_infos = cur.fetchall()
+    for info in l_infos:
+        if (None in info):
+            return False
+    cur.execute("SELECT * FROM CartePaienment\
+                WHERE numClient='"+str(session['user'])+"';")
+    l_infos = cur.fetchall()
+    for info in l_infos:
+        if (None in info):
+            return False
+    return True
 
 
 if __name__ == '__main__':

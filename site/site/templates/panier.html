@@ -1,0 +1,18 @@
+<section>
+    {% include 'message.html' %}
+    <div id="container_section">
+        <div id="container_panier">
+            <ul>
+                {% for article in panier %}
+                    <li><i>Nom article</i> : {{article[2]}}</li>
+                    <li><i>Nombre article</i> : {{article[1]}}</li><br/>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="container_button">
+            <form method="post" action="/commande_panier/">
+                <input type="submit" id="envoyer" value="Commander">
+            </form>
+        </div>
+    </div>
+</section>

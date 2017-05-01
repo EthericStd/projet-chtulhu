@@ -6,6 +6,10 @@ section
 	/*padding-top: 50px;*/
 }
 
+section p
+{
+    text-align: center;
+}
 
 /*Article general*/
 #container_articles h1
@@ -32,7 +36,7 @@ article
 
 #img_article
 {
-	background-image: url("img/vin_rouge.png");
+	/*background-image: url("img/vin_rouge.png");*/
 	background-repeat: repeat-y;
 	background-size: contain;
 	background-position: center;
@@ -58,17 +62,10 @@ article
 
 #container_bouton
 {
-	border: 1px solid white;
 	text-align: right;
 	padding: 10px 30px;
 }
 
-.bouton
-{
-	border: 1px solid green;
-	text-decoration: none;
-	font-size: 25px;
-}
 
 hr
 {

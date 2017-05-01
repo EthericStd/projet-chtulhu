@@ -1,0 +1,35 @@
+section
+{
+    height: auto;
+    text-align: center;
+}
+#container_section
+{
+    margin: auto;
+    height: auto;
+    border: 3px black double;
+}
+
+#container_panier
+{
+    text-align: left;
+    width: 42%;
+    height: 100%;
+    padding-left: 38%;
+    line-height: 2em;
+}
+
+#container_button
+{
+	text-align: center;
+}
+
+i
+{
+    font-style: italic;
+}
+
+#container_section ul
+{
+    list-style-type: none;
+}

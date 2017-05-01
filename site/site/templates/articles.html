@@ -7,37 +7,29 @@
         {% for article in articles %}
             <article>
                 <div id="img_article">
+                    <img src="/static/img/{{article[1]}}.png"/>
                 </div>
                 <div id="text_article">
-                    <p>L'histoire de cet épisode se déroule trois ans<br/> après les événements d’Un nouvel espoir.<br/> La guerre entre le maléfique Empire galactique et<br/> son antagoniste,l’Alliance rebelle, bat son plein.<br/> Les héros de l’Alliance Luke Skywalker et Han Solo<br/> se séparent après la prise de la principale base<br/> rebelle par l’Empire.Palpatine.</p>
+                    <!--{% for ligne in article[2] %}
+                        {{ligne}}<br>
+                    {% endfor %}-->
+                    {{article[2]}}
                 </div>
                 <div id="container_bouton">
-                    <a class="bouton" href="#">Ajouter au panier</a>
+                    <form method="post" action="/ajout_panier/{{article[0]}}/">
+                        <label for="nbArticle">Nombre :</label>
+                        <select name="nbArticle" id="nbArticle">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <input type="submit" id="envoyer" value="Ajouter au Panier" />
+                    </form>
                 </div>
             </article>
         {% endfor %}
-
-        <article>
-            <div id="img_article">
-            </div>
-            <div id="text_article">
-                <p>L'histoire de cet épisode se déroule trois ans<br/> après les événements d’Un nouvel espoir.<br/> La guerre entre le maléfique Empire galactique et<br/> son antagoniste,l’Alliance rebelle, bat son plein.<br/> Les héros de l’Alliance Luke Skywalker et Han Solo<br/> se séparent après la prise de la principale base<br/> rebelle par l’Empire.Palpatine.</p>
-            </div>
-            <div id="container_bouton">
-                <a class="bouton" href="#">Ajouter au panier</a>
-            </div>
-        </article>
-
-        <article>
-            <div id="img_article">
-            </div>
-            <div id="text_article">
-                <p>L'histoire de cet épisode se déroule trois ans<br/> après les événements d’Un nouvel espoir.<br/> La guerre entre le maléfique Empire galactique et<br/> son antagoniste,l’Alliance rebelle, bat son plein.<br/> Les héros de l’Alliance Luke Skywalker et Han Solo<br/> se séparent après la prise de la principale base<br/> rebelle par l’Empire.Palpatine.</p>
-            </div>
-            <div id="container_bouton">
-                <a class="bouton" href="#">Ajouter au panier</a>
-            </div>
-        </article>
 
     </div>
 

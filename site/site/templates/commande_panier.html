@@ -1,0 +1,14 @@
+<section>
+    <div id="container_section">
+        {% include 'message.html' %}
+        <div id="container_panier">
+            <ul>
+                <p>Vous serez livré à l'adresse suivante : {{infos[1]}}</p>
+                <p>Vous serez facturé à l'adresse suivante : {{infos[2]}}</p>
+                <p>Voulez-vous payé avec la carte suivante ? : {{infos[3]}}</p>
+                <a href="/compte/moyens_paiement/">Non</a><br>
+                <a href="/paiement_effectué/">Oui</a>
+            </ul>
+        </div>
+    </div>
+</section>

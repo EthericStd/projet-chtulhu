@@ -4,13 +4,15 @@ create or replace function verif_panier()
     declare
     ligne record;
     begin
-    for ligne in (SELECT NumArticle from Article) loop
-        if (new.NumArticle == NumArticle) then
-            update ArticlePanier
-                set NbArticlePanier = NbArticlePanier + new.NbArticlePanier;
-            return null;
-        end if;
-    end loop;
+    if((select nbArticlePanier from articlepanier
+    where new.numPanier=numPanier
+    and new.numArticle=numArticle) is not null) then
+        update ArticlePanier
+            set NbArticlePanier = NbArticlePanier + new.nbArticlePanier
+        where new.numPanier=numPanier
+        and new.numArticle=numArticle;
+        return null;
+    end if;
     return new;
     end;
     $$ language plpgsql;
