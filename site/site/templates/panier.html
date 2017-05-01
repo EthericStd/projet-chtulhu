@@ -5,14 +5,31 @@
             <ul>
                 {% for article in panier %}
                     <li><i>Nom article</i> : {{article[2]}}</li>
-                    <li><i>Nombre article</i> : {{article[1]}}</li><br/>
+                    <li><i>Nombre article</i> : {{article[1]}}</li>
+                    <form method="post" action="/ajout_panier/{{article[0]}}/">
+                        <input type="hidden" name="nbArticle" id="nbArticle"  value="-1"/>
+                        <input type="submit" id="décrémente" value="-" />
+                    </form>
+                    <form method="post" action="/ajout_panier/{{article[0]}}/">
+                        <input type="hidden" name="nbArticle" id="nbArticle"  value="1"/>
+                        <input type="submit" id="incrémente" value="+" />
+                    </form>
+                    <form method="post" action="/ajout_panier/{{article[0]}}/">
+                        <input type="hidden" name="nbArticle" id="nbArticle"  value="-{{article[1]}}"/>
+                        <input type="submit" id="suppression" value="Supprimer" />
+                    </form><br/>
                 {% endfor %}
             </ul>
         </div>
         <div id="container_button">
-            <form method="post" action="/commande_panier/">
-                <input type="submit" id="envoyer" value="Commander">
+            <form method="get" action="/articles/">
+                <input type="submit" id="articles" value="Continuer vos achats" />
             </form>
+            {% if panier %}
+                <form method="post" action="/commande_panier/">
+                    <input type="submit" id="envoyer" value="Commander" />
+                </form>
+            {% endif %}
         </div>
     </div>
 </section>

@@ -3,10 +3,12 @@
 
 from flask import *
 import psycopg2
-from liste_article import *
+import time
+# from liste_article import *
 app = Flask(__name__)
 
 
+# Fonction connectant flask à la base de donnée.
 def connect():
     try:
         conn = psycopg2.connect(dbname="chtulhu")
@@ -33,7 +35,8 @@ def articles():
     if ('user' in session):
         section = "articles.html"
         l_css = ["articles.css"]
-        cur.execute("SELECT numArticle, nomArticle, descriptionArticle FROM Article")
+        cur.execute("SELECT numArticle, nomArticle, descriptionArticle\
+                    FROM Article")
         l_articles = cur.fetchall()
         # articles = [carte_mere, carte_graphique]
         return render_template('layout_base.html', section=section,
@@ -146,7 +149,8 @@ def panier():
         query = "SELECT numArticle, nbArticlePanier FROM ArticlePanier\
                 WHERE numPanier=\
                 (SELECT numPanier FROM Panier\
-                WHERE numClient='"+str(session['user'])+"');"
+                WHERE numClient='"+str(session['user'])+"'\
+                AND dateCommandePanier is null);"
         cur.execute(query)
         panier = cur.fetchall()
         i = 0
@@ -172,7 +176,8 @@ def ajout_panier(id_article):
         id_article = id_article
         if ('user' in session):
             query = "SELECT numPanier FROM Panier\
-                     WHERE numClient='"+str(session['user'])+"';"
+                     WHERE numClient='"+str(session['user'])+"'\
+                     AND dateCommandePanier is null;"
             cur.execute(query)
             numP = cur.fetchone()[0]
             nbA = request.form['nbArticle']
@@ -180,6 +185,7 @@ def ajout_panier(id_article):
                         VALUES ('"+str(numP)+"',\
                         '"+str(id_article)+"', '"+str(nbA)+"')")
             conn.commit()
+            derniere_modif_panier()
             return redirect(url_for('panier'))
         else:
             return redirect(url_for('non_connecte'))
@@ -192,16 +198,31 @@ def commande_panier():
     if request.method == "POST":
         if ('user' in session):
             if verif_info():
+                infos = recup_infos()
                 section = "commande_panier.html"
                 l_css = ["panier.css"]
-            return render_template("layout_base.html", section=section,
-                                   l_css=l_css, user=session['user'])
-            flash(u"Veuillez remplir vos informations de paiement et de livraison.")
+                return render_template("layout_base.html", section=section,
+                                       l_css=l_css, user=session['user'],
+                                       infos=infos)
+            flash(u"Veuillez remplir toutes vos informations\
+                  de paiement et de livraison.")
             return redirect(url_for("compte"))
         else:
             return redirect(url_for('non_connecte'))
     else:
         abort(404)
+
+
+@app.route('/paiement_effectue/', methods=['GET'])
+def paiement_effectue():
+    flash(u"Votre commande a bien été effectuée :)")
+    cur.execute("UPDATE Panier\
+                SET dateCommandePanier=\
+                '"+time.strftime('%d/%m/%y', time.localtime())+"'\
+                WHERE numClient='"+str(session['user'])+"'\
+                AND dateCommandePanier is null;")
+    set_panier()
+    return redirect(url_for('compte'))
 
 
 def log(mailC, mdpC):
@@ -240,8 +261,31 @@ def set_carte_paiement():
 
 
 def set_panier():
-    cur.execute("INSERT INTO Panier (numClient)\
-                VALUES ('"+str(session['user'])+"');")
+    cur.execute("SELECT numAdresseFacturation FROM AdresseFacturation\
+                WHERE numClient='"+str(session['user'])+"';")
+    numFact = cur.fetchone()[0]
+
+    cur.execute("SELECT numAdresseLivraison FROM AdresseLivraison\
+                WHERE numClient='"+str(session['user'])+"';")
+    numLivr = cur.fetchone()[0]
+
+    cur.execute("SELECT numCartePaiement FROM CartePaiement\
+                WHERE numClient='"+str(session['user'])+"';")
+    numCarte = cur.fetchone()[0]
+
+    cur.execute("INSERT INTO Panier (numClient, dateCréationPanier,\
+                numAdresseFacturation, numAdresseLivraison, numCartePaiement)\
+                VALUES ('"+str(session['user'])+"',\
+                '"+time.strftime('%d/%m/%y', time.localtime())+"',\
+                '"+str(numFact)+"', '"+str(numLivr)+"', '"+str(numCarte)+"');")
+    conn.commit()
+
+
+def derniere_modif_panier():
+    cur.execute("UPDATE Panier SET dateDernièreModifPanier=\
+                '"+time.strftime('%d/%m/%y', time.localtime())+"'\
+                WHERE numClient='"+str(session['user'])+"'\
+                AND dateCommandePanier is null;")
     conn.commit()
 
 
@@ -258,13 +302,34 @@ def verif_info():
     for info in l_infos:
         if (None in info):
             return False
-    cur.execute("SELECT * FROM CartePaienment\
+    cur.execute("SELECT * FROM CartePaiement\
                 WHERE numClient='"+str(session['user'])+"';")
     l_infos = cur.fetchall()
     for info in l_infos:
         if (None in info):
             return False
     return True
+
+
+def recup_infos():
+    cur.execute("SELECT nomprénomadresselivraison,\
+                adresseligne1adresselivraison,\
+                adresseligne2adresselivraison, villeadresselivraison,\
+                paysadresselivraison, codepostaladresselivraison\
+                FROM AdresseLivraison\
+                WHERE numClient='"+str(session['user'])+"';")
+    infos = cur.fetchall()
+    cur.execute("SELECT nomprénomadressefacturation,\
+                adresseligne1adressefacturation,\
+                adresseligne2adressefacturation, villeadressefacturation,\
+                paysadressefacturation, codepostaladressefacturation\
+                FROM AdresseFacturation\
+                WHERE numClient='"+str(session['user'])+"';")
+    infos.append(cur.fetchone())
+    cur.execute("SELECT numéroCartePaiement FROM CartePaiement\
+                WHERE numClient='"+str(session['user'])+"';")
+    infos.append(cur.fetchone())
+    return infos
 
 
 if __name__ == '__main__':

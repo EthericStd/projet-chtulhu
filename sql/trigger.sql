@@ -1,16 +1,21 @@
 create or replace function verif_panier()
     returns TRIGGER
     as $$
-    declare
-    ligne record;
     begin
     if((select nbArticlePanier from articlepanier
     where new.numPanier=numPanier
     and new.numArticle=numArticle) is not null) then
         update ArticlePanier
-            set NbArticlePanier = NbArticlePanier + new.nbArticlePanier
+            set nbArticlePanier = nbArticlePanier + new.nbArticlePanier
         where new.numPanier=numPanier
         and new.numArticle=numArticle;
+        if((select nbArticlePanier from articlepanier
+        where new.numPanier=numPanier
+        and new.numArticle=numArticle) <= 0) then
+            delete from articlepanier
+            where new.numPanier=numPanier
+            and new.numArticle=numArticle;
+        end if;
         return null;
     end if;
     return new;
