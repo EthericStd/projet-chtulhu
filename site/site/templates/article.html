@@ -1,0 +1,32 @@
+<section>
+    {% include 'message.html' %}
+    <div id="container_articles">
+        <h1>{{article[1][0]}}</h1>
+            <article>
+                <div id="img_article">
+                    <img src="/static/img/{{image}}.png"/>
+                </div>
+                <div id="text_article">
+                    {{article[1][1]}}<br/>
+                    <ul>{% for tag in tags %}
+                            <li>{{tag[0]}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div id="container_bouton">
+                    <form method="post" action="/ajout_panier/{{article[0]}}/">
+                        <label for="nbArticle">Nombre :</label>
+                        <select name="nbArticle" id="nbArticle">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <input type="submit" id="envoyer" value="Ajouter au Panier" />
+                    </form>
+                </div>
+            </article>
+    </div>
+
+</section>

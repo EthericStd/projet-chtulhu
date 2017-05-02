@@ -51,6 +51,30 @@ def articles():
                            l_css=l_css, articles=l_articles)
 
 
+@app.route('/article/<int:id_article>/', methods=['GET', 'POST'])
+def article(id_article):
+    id_article = id_article
+    section = "article.html"
+    l_css = ["articles.css"]
+    cur.execute("SELECT LibelléArticle, DescriptionArticle FROM Article\
+                WHERE numArticle='"+str(id_article)+"';")
+    article = [id_article] + [cur.fetchone()]
+    cur.execute("SELECT valeurTags FROM Tags\
+                WHERE numArticle='"+str(id_article)+"'\
+                AND nomTags <> 'type composants';")
+    l_tags = cur.fetchall()
+    cur.execute("SELECT valeurTags FROM Tags\
+                WHERE numArticle='"+str(id_article)+"'\
+                AND nomTags = 'type composants';")
+    image = cur.fetchone()[0]
+    if ('user' in session):
+        return render_template('layout_base.html', section=section,
+                               l_css=l_css, tags=l_tags, article=article,
+                               user=session['user'], image=image)
+    return render_template('layout_base.html', section=section,
+                           l_css=l_css, article=article, tags=l_tags)
+
+
 @app.route('/compte/mes_informations/', methods=['GET'])
 def mes_informations():
     if "user" in session:
