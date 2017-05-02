@@ -92,14 +92,8 @@ CREATE TABLE Panier
     DateDernièreModifPanier date,
     DateCommandePanier date,
     NumClient serial,
-    NumAdresseFacturation serial,
-    NumAdresseLivraison serial,
-    NumCartePaiement serial,
     PRIMARY KEY (NumPanier),
-    FOREIGN KEY (NumClient) REFERENCES Client,
-    FOREIGN KEY (NumAdresseFacturation) REFERENCES AdresseFacturation,
-    FOREIGN KEY (NumAdresseLivraison) REFERENCES AdresseLivraison,
-    FOREIGN KEY (NumCartePaiement) REFERENCES CartePaiement (NumCartePaiement)
+    FOREIGN KEY (NumClient) REFERENCES Client
 );
 
 CREATE TABLE Article

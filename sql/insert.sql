@@ -75,5 +75,5 @@ INSERT INTO PossedeAdrLivraison (NumClient, NumAdresseLivraison) VALUES
     (1, 2);
 
 
-INSERT INTO Panier (NumClient, NumAdresseFacturation, NumAdresseLivraison, NumCartePaiement) VALUES
-    (1,1,1,1);
+INSERT INTO Panier (NumClient) VALUES
+    (1);

@@ -55,17 +55,17 @@ def articles():
 def article(id_article):
     id_article = id_article
     section = "article.html"
-    l_css = ["articles.css"]
+    l_css = ["article.css"]
     cur.execute("SELECT LibelléArticle, DescriptionArticle FROM Article\
                 WHERE numArticle='"+str(id_article)+"';")
     article = [id_article] + [cur.fetchone()]
     cur.execute("SELECT valeurTags FROM Tags\
                 WHERE numArticle='"+str(id_article)+"'\
-                AND nomTags <> 'type composants';")
+                AND nomTags <> 'type composant';")
     l_tags = cur.fetchall()
     cur.execute("SELECT valeurTags FROM Tags\
                 WHERE numArticle='"+str(id_article)+"'\
-                AND nomTags = 'type composants';")
+                AND nomTags = 'type composant';")
     image = cur.fetchone()[0]
     if ('user' in session):
         return render_template('layout_base.html', section=section,
@@ -524,6 +524,13 @@ def login():
                                section=section, l_css=l_css)
 
 
+@app.route("/logout/")
+def logout():
+    session.pop("user", None)
+    session.pop("vendeur", None)
+    return redirect("/")
+
+
 @app.route('/subscription/', methods=['GET', 'POST'])
 def subscription():
     if request.method == 'POST':
@@ -550,9 +557,6 @@ def subscription():
             cur.execute(query)
             conn.commit()
             url = log(mailC, mdpC)
-            set_adresse_livraison()
-            set_adresse_facturation()
-            set_carte_paiement()
             set_panier()
             return url
         flash("Les mots de passe ne sont pas identiques.")
@@ -663,48 +667,10 @@ def log(mailC, mdpC):
     return redirect(url_for('login'))
 
 
-def set_adresse_facturation():
-    cur.execute("INSERT INTO AdresseFacturation (numClient)\
-                VALUES ('"+str(session['user'])+"');")
-    conn.commit()
-
-
-def set_adresse_livraison():
-    cur.execute("INSERT INTO AdresseLivraison (numClient)\
-                VALUES ('"+str(session['user'])+"');")
-    conn.commit()
-
-
-def set_carte_paiement():
-    cur.execute("INSERT INTO CartePaiement (numClient)\
-                VALUES ('"+str(session['user'])+"');")
-    conn.commit()
-
-
 def set_panier():
-    cur.execute("SELECT numAdresseFacturation FROM AdresseFacturation\
-                where NumAdresseFacturation IN (select NumAdresseFacturation\
-                                              from PossedeAdrFacturation\
-                                              where NumClient = '"+str(session['user'])+"');")
-    numFact = cur.fetchone()[0]
-
-    cur.execute("SELECT numAdresseLivraison FROM AdresseLivraison\
-                where NumAdresseLivraison IN (select NumAdresseLivraison\
-                                              from PossedeAdrLivraison\
-                                              where NumClient = '"+str(session['user'])+"');")
-    numLivr = cur.fetchone()[0]
-
-    cur.execute("SELECT numCartePaiement FROM CartePaiement\
-                where NumCartePaiement IN (select NumCartePaiement\
-                                              from PossedeCartePaiement\
-                                              where NumClient = '"+str(session['user'])+"');")
-    numCarte = cur.fetchone()[0]
-
-    cur.execute("INSERT INTO Panier (numClient, dateCréationPanier,\
-                numAdresseFacturation, numAdresseLivraison, numCartePaiement)\
+    cur.execute("INSERT INTO Panier (numClient, dateCréationPanier)\
                 VALUES ('"+str(session['user'])+"',\
-                '"+time.strftime('%d/%m/%y', time.localtime())+"',\
-                '"+str(numFact)+"', '"+str(numLivr)+"', '"+str(numCarte)+"');")
+                '"+time.strftime('%d/%m/%y', time.localtime())+"');")
     conn.commit()
 
 

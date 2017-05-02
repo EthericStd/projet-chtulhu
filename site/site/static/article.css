@@ -49,6 +49,17 @@ article
 	height: 80%;
 }
 
+#text_article p
+{
+	text-align: center;
+	padding-top: 10px;
+}
+
+#text_article ul
+{
+	padding-right: 20px;
+}
+
 #container_bouton
 {
 	text-align: right;
