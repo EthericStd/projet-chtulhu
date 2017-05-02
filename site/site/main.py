@@ -383,6 +383,31 @@ def ameliorer_vendeur_():
         return redirect("/non_connecte/")
 
 
+@app.route('/define_adr_facturation/', methods=['POST'])
+def define_adr_facturation():
+    num = request.form['num']
+    session['facturation'] = num
+    flash(u"Adresse de facturation définie :)")
+    return redirect('/compte/adresse_facturation/')
+
+
+@app.route('/define_adr_livraison/', methods=['POST'])
+def define_adr_facturation():
+    num= request.form['num']
+    session['livraison'] = num
+    flash(u"Adresse de livraison définie :)")
+    return redirect('/compte/adresse_livraison/')
+
+
+
+@app.route('/define_moyens_paiement/', methods=['POST'])
+def define_adr_facturation():
+    num = request.form['num']
+    session['paiement'] = num
+    flash(u"Moyen de paiement définie :)")
+    return redirect('/compte/moyens_paiement/')
+
+
 def check_vendeur(pnum):
     cur.execute("select * from check_vendeur( "+ str(pnum) +" )" )
     vendeur = cur.fetchall()
@@ -612,7 +637,7 @@ def ajout_panier(id_article):
                         '"+str(id_article)+"', '"+str(nbA)+"')")
             conn.commit()
             derniere_modif_panier()
-            return redirect(url_for('panier'))
+            return redirect('/panier/#container_panier')
         else:
             return redirect(url_for('non_connecte'))
     else:
@@ -626,7 +651,7 @@ def commande_panier():
             if verif_info():
                 infos = recup_infos()
                 section = "commande_panier.html"
-                l_css = ["panier.css"]
+                l_css = ["commande_panier.css"]
                 return render_template("layout_base.html", section=section,
                                        l_css=l_css, user=session['user'],
                                        infos=infos)
@@ -718,23 +743,17 @@ def recup_infos():
                 adresseligne2adresselivraison, villeadresselivraison,\
                 paysadresselivraison, codepostaladresselivraison\
                 FROM AdresseLivraison\
-                where NumAdresseLivraison IN (select NumAdresseLivraison\
-                                              from PossedeAdrLivraison\
-                                              where NumClient = '"+str(session['user'])+"');")
+                where NumAdresseLivraison='"+str(session['livraison'])+"';")
     infos = cur.fetchall()
     cur.execute("SELECT nomprénomadressefacturation,\
                 adresseligne1adressefacturation,\
                 adresseligne2adressefacturation, villeadressefacturation,\
                 paysadressefacturation, codepostaladressefacturation\
                 FROM AdresseFacturation\
-                where NumAdresseFacturation IN (select NumAdresseFacturation\
-                                              from PossedeAdrFacturation\
-                                              where NumClient = '"+str(session['user'])+"');")
+                where NumAdresseFacturation ='"+str(session['facturation'])+"';")
     infos.append(cur.fetchone())
     cur.execute("SELECT numéroCartePaiement FROM CartePaiement\
-                where NumCartePaiement IN (select NumCartePaiement\
-                                              from PossedeCartePaiement\
-                                              where NumClient = '"+str(session['user'])+"');")
+                where NumCartePaiement='"+str(session['paiement'])+"';")
     infos.append(cur.fetchone())
     return infos
 
