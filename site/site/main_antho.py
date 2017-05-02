@@ -4,7 +4,6 @@
 from flask import *
 import psycopg2
 import time
-# from liste_article import *
 app = Flask(__name__)
 
 
@@ -35,8 +34,7 @@ def articles():
     if ('user' in session):
         section = "articles.html"
         l_css = ["articles.css"]
-        cur.execute("SELECT numArticle, nomArticle, descriptionArticle\
-                    FROM Article")
+        cur.execute("SELECT numArticle, nomArticle FROM Article")
         l_articles = cur.fetchall()
         # articles = [carte_mere, carte_graphique]
         return render_template('layout_base.html', section=section,
@@ -255,7 +253,7 @@ def set_adresse_livraison():
 
 
 def set_carte_paiement():
-    cur.execute("INSERT INTO CartePaienment (numClient)\
+    cur.execute("INSERT INTO CartePaiement (numClient)\
                 VALUES ('"+str(session['user'])+"');")
     conn.commit()
 

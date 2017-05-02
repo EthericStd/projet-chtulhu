@@ -10,10 +10,7 @@
                     <img src="/static/img/{{article[1]}}.png"/>
                 </div>
                 <div id="text_article">
-                    <!--{% for ligne in article[2] %}
-                        {{ligne}}<br>
-                    {% endfor %}-->
-                    {{article[2]}}
+                    {{article[1]}}
                 </div>
                 <div id="container_bouton">
                     <form method="post" action="/ajout_panier/{{article[0]}}/">
