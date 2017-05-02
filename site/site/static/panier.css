@@ -1,3 +1,9 @@
+section #flash
+{
+    text-align: center;
+}
+
+
 section
 {
     height: auto;
@@ -34,4 +40,10 @@ i
 #container_section ul
 {
     list-style-type: none;
+}
+
+
+#décrémente, #incrémente, #suppression
+{
+    float: left;
 }

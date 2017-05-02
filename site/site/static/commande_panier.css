@@ -1,0 +1,25 @@
+section
+{
+    height: auto;
+    text-align: center;
+}
+
+#container_section
+{
+    border: 3px black double;
+}
+
+#container_panier
+{
+    text-align: center;
+    line-height: 2em;
+}
+
+#container_panier a
+{
+    border: 3px black double;
+	padding: 2px 15px;
+	color: black;
+	background-color: white;
+	box-shadow: 1px 1px 5px black inset;
+}
