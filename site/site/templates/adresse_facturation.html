@@ -48,6 +48,12 @@
                     <input id="envoyer" type="submit" value="Supprimer cette adresse de facturation" />
                 </form>
             </div>
+            <div id="container_article_5">
+                <form method="post" action="/compte/define_adr_facturation/">
+                    <input type='hidden' name='num' value='{{infos[6]}}'>
+                    <input id="envoyer" type="submit" value="Definir cette adresse de facturation pour les commandes" />
+                </form>
+            </div>
             {%else%}
             <div id="container_article_4">
                 <a href="/compte/ajout_adresse_facturation">Ajouter une adresse de facturation</a>

@@ -481,6 +481,8 @@ def ajout_article_():
 
 
 
+
+
 @app.route('/compte/moyens_paiement/')
 def redir_moyens_paiement():
     return redirect('/compte/moyens_paiement/0')

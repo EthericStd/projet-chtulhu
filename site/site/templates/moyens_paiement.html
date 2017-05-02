@@ -47,6 +47,12 @@
                     <input id="envoyer" type="submit" value="Supprimer ce moyen de paiement" />
                 </form>
             </div>
+            <div id="container_article_5">
+                <form method="post" action="/compte/define_moyens_paiement/">
+                    <input type='hidden' name='num' value='{{infos[5]}}'>
+                    <input id="envoyer" type="submit" value="Definir ce moyen de paiement pour les commandes" />
+                </form>
+            </div>
             {%else%}
             <div id="container_article_4">
                 <a href="/compte/ajout_moyens_paiement">Ajouter un moyen de paiement</a>
