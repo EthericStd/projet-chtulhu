@@ -383,7 +383,7 @@ def ameliorer_vendeur_():
         return redirect("/non_connecte/")
 
 
-@app.route('/define_adr_facturation/', methods=['POST'])
+@app.route('/compte/define_adr_facturation/', methods=['POST'])
 def define_adr_facturation():
     num = request.form['num']
     session['facturation'] = num
@@ -391,8 +391,8 @@ def define_adr_facturation():
     return redirect('/compte/adresse_facturation/')
 
 
-@app.route('/define_adr_livraison/', methods=['POST'])
-def define_adr_facturation():
+@app.route('/compte/define_adr_livraison/', methods=['POST'])
+def define_adr_livraison():
     num= request.form['num']
     session['livraison'] = num
     flash(u"Adresse de livraison définie :)")
@@ -400,8 +400,8 @@ def define_adr_facturation():
 
 
 
-@app.route('/define_moyens_paiement/', methods=['POST'])
-def define_adr_facturation():
+@app.route('/compte/define_moyens_paiement/', methods=['POST'])
+def define_moyens_paiement():
     num = request.form['num']
     session['paiement'] = num
     flash(u"Moyen de paiement définie :)")
@@ -648,16 +648,22 @@ def ajout_panier(id_article):
 def commande_panier():
     if request.method == "POST":
         if ('user' in session):
-            if verif_info():
-                infos = recup_infos()
-                section = "commande_panier.html"
-                l_css = ["commande_panier.css"]
-                return render_template("layout_base.html", section=section,
-                                       l_css=l_css, user=session['user'],
-                                       infos=infos)
-            flash(u"Veuillez remplir toutes vos informations\
-                  de paiement et de livraison.")
-            return redirect(url_for("redir_compte"))
+            if verif_existance():
+                if verif_info():
+                    infos = recup_infos()
+                    section = "commande_panier.html"
+                    l_css = ["commande_panier.css"]
+                    return render_template("layout_base.html", section=section,
+                                           l_css=l_css, user=session['user'],
+                                           infos=infos)
+                else:
+                    flash(u"Veuillez remplir toutes vos informations\
+                          (paiement, livraison et facturation).")
+                    return redirect(url_for("redir_compte"))
+            else:
+                flash("Veuillez définir vos informations pas défaut\
+                      (paiement, livraison et facturation).")
+                return redirect("/compte/moyens_paiement/")
         else:
             return redirect(url_for('non_connecte'))
     else:
@@ -735,6 +741,15 @@ def verif_info():
         if (None in info):
             return False
     return True
+
+
+def verif_existance():
+    if "livraison" in session and\
+       "facturation" in session and\
+       "paiement" in session:
+        return True
+    else:
+       return False
 
 
 def recup_infos():
