@@ -1,4 +1,4 @@
-section #flash
+ajoutsection #flash
 {
     text-align: center;
 }
@@ -83,4 +83,9 @@ input:focus
 #champ
 {
     padding-right: 15%;
+}
+
+#numero1, #numero2, #numero3, #numero4, #date_cb1, #date_cb2, #crypto
+{
+    text-align: center;
 }

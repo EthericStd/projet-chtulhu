@@ -1,17 +1,23 @@
 <section>
-    {% include 'message.html' %}
-    <div id="container_section">
+    {%include 'message.html'%}
+    <div id="container_section"
+    {%if vendeur == -1%} style="height: 350px"
+    {%else%} style="height: 450px" {%endif%} >
         <div id="container_nav">
             <ul>
-                <li id="group">Gérer mon compte</li>
-                <li><a href="/compte/">Mes informations</a></li>
-                <li><a href="/compte/changer_mdp/">Changer mon mot de passe</a></li><br/>
-                <li id="group">Ajouter / Modifier</li>
-                <li><a href="#">Moyen de paiement</a></li>
-                <li><a href="#">Adresse de livraison</a></li>
-                <li><a href="#">Adresse de facturation</a></li><br/>
-                <li id="group"><a href="/panier/">Mon panier</a></li>
-                <li id="group"><a href='/logout/'>Déconexion</a></li>
+                <li class="group">Gérer mon compte</li>
+                <li><a href="/compte/mes_informations">Mes informations</a></li>
+                <li><a href="/compte/changer_mdp">Changer mon mot de passe</a></li><br/>
+                <li class="group">Ajouter / Modifier</li>
+                <li><a href="/compte/moyens_paiement">Moyen de paiement</a></li>
+                <li><a href="/compte/adresse_livraison">Adresse de livraison</a></li>
+                <li><a href="/compte/adresse_facturation">Adresse de facturation</a></li><br/>
+                {% if vendeur == -1 %}
+                    <li class="group"><a href="/compte/ameliorer_vendeur">Améliorer en compte vendeur</a></li><br/>
+                {%else%}
+                    <li class="group"><a href="/compte/ajout_article">Ajouter un article</a></li><br/>
+                {%endif%}
+                <li class="group"><a href='/logout/'>Déconexion</a></li>
             </ul>
         </div>
 
@@ -22,9 +28,16 @@
                 <li><i>Date de naissance</i> : {{infos[2]}}</li>
                 <li><i>AdresseMail</i> : {{infos[3]}}</li>
                 <li><i>Mot de passe</i> : {{infos[4]}}</li>
-                <li><i>Moyens de paiement</i> : <a href="#">Cliquer ici</a></li>
-                <li><i>Adresse de livraison</i> : <a href="#">Cliquer ici</a></li>
-                <li><i>Adresse de facturation</i> : <a href="#">Cliquer ici</a></li>
+                <li><i>Moyens de paiement</i> : <a href="/compte/moyens_paiement">Cliquer ici</a></li>
+                <li><i>Adresse de livraison</i> : <a href="/compte/adresse_livraison">Cliquer ici</a></li>
+                <li><i>Adresse de facturation</i> : <a href="/compte/adresse_facturation">Cliquer ici</a></li>
+                {%if vendeur != -1%}
+                    <li><i>Nom vendeur</i> : {{infosv[0][0]}}</li>
+                    <li><i>Adresse vendeur</i> : {{infosv[0][1]}}</li>
+                    <li><i>Mail pour les commandes</i> : {{infosv[0][2]}}</li>
+                    <li><i>Mail pour les discussions clients</i> : {{infosv[0][3]}}</li>
+                    <li><i>Description vendeur</i> : {{infosv[0][4]}}</li>
+                {%endif%}
             </ul>
         </div>
     </div>

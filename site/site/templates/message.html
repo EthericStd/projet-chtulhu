@@ -1,5 +1,5 @@
-<p id="flash">
-    {% for message in get_flashed_messages() %}
+{% for message in get_flashed_messages() %}
+    <p id="flash">
         {{ message }}
-    {% endfor %}
-</p>
+    </p>
+{% endfor %}

@@ -21,19 +21,22 @@
 
         <nav>
             <div id="nav_bar">
+                <a id="accueil" href="/">
                 <div id="logo">
-                    <img src="/static/img/log_chtulhu.png"/>
+                    <img id="logo_img" src="/static/img/log_chtulhu.png"/>
                 </div>
                 <div id="nom">
                     <p>Chtulhu</p>
                 </div>
+                </a>
                 <div id="links">
                     <ul>
-                        <li><a href="/">Acceuil</a></li>
+                        <li><a href="/articles">Articles</a></li>
                         <!-- Différents liens selon si
                         l'utilisateur est connecté ou non. -->
                         {% if user %}
                             <li><a href="/compte/">Mon Compte</a></li>
+                            <li><a href="/panier/">Panier</a></li>
                         {% else %}
                             <li><a href="/login">Se Connecter</a></li>
                         {% endif %}

@@ -1,5 +1,4 @@
 <section>
-    {% include 'message.html' %}
     <div id="container_section">
         <div id="container_nav">
             <ul>
@@ -20,20 +19,35 @@
         </div>
 
         <div id="container_article">
-            <form method="post" action="/compte/changer_mdp/">
+            <form method="post" action="/compte/ajout_adresse_livraison/">
                 <p id="champ">
-                    <label for="ancien_mdp">Ancien mot de passe :</label>
-                    <input type="text" name="ancien_mdp" id="ancien_mdp" size="15" maxlength="100" required />
+                    <label for="nom_prenom">Nom et prénom adresse livraison :</label>
+                    <input type="text" name="nom_prenom" id="nom_prenom" size="15" maxlength="100" required />
                 </p>
 
                 <p id="champ">
-                    <label for="new_mdp">Nouveau mot de passe :</label>
-                    <input type="password" name="new_mdp" id="new_mdp" size="15" maxlength="100" required />
+                    <label for="adr1">Adresse ligne1 adresse livraison :</label>
+                    <input type="text" name="adr1" id="adr1" size="15" maxlength="100" required />
                 </p>
 
                 <p id="champ">
-                    <label for="new_mdp_confirm">Confirmer nouveau mot de passe :</label>
-                    <input type="password" name="new_mdp_confirm" id="new_mdp_confirm" size="15" maxlength="100" required />
+                    <label for="adr2">Adresse ligne2 adresse livraison :</label>
+                    <input type="text" name="adr2" id="adr2" size="15" maxlength="100" required />
+                </p>
+
+                <p id="champ">
+                    <label for="ville">Ville adresse livraison :</label>
+                    <input type="text" name="ville" id="ville" size="15" maxlength="100" required />
+                </p>
+
+                <p id="champ">
+                    <label for="pays">Pays adresse livraison :</label>
+                    <input type="text" name="pays" id="pays" size="15" maxlength="100" required />
+                </p>
+
+                <p id="champ">
+                    <label for="cp">Code postal adresse livraison :</label>
+                    <input type="text" name="cp" id="cp" size="2" maxlength="5" required />
                 </p>
 
                 <p id="p_envoyer">

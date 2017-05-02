@@ -1,5 +1,4 @@
 <section>
-    {% include 'message.html' %}
     <div id="container_section">
         <div id="container_nav">
             <ul>
@@ -20,20 +19,30 @@
         </div>
 
         <div id="container_article">
-            <form method="post" action="/compte/changer_mdp/">
+            <form method="post" action="/compte/ameliorer_vendeur/">
                 <p id="champ">
-                    <label for="ancien_mdp">Ancien mot de passe :</label>
-                    <input type="text" name="ancien_mdp" id="ancien_mdp" size="15" maxlength="100" required />
+                    <label for="nom">Nom vendeur :</label>
+                    <input type="text" name="nom" id="nom" size="15" maxlength="100" required />
                 </p>
 
                 <p id="champ">
-                    <label for="new_mdp">Nouveau mot de passe :</label>
-                    <input type="password" name="new_mdp" id="new_mdp" size="15" maxlength="100" required />
+                    <label for="adr">Adresse vendeur :</label>
+                    <input type="text" name="adr" id="adr" size="15" maxlength="100" required />
                 </p>
 
                 <p id="champ">
-                    <label for="new_mdp_confirm">Confirmer nouveau mot de passe :</label>
-                    <input type="password" name="new_mdp_confirm" id="new_mdp_confirm" size="15" maxlength="100" required />
+                    <label for="mail_c">Mail pour les commandes :</label>
+                    <input type="text" name="mail_c" id="mail_c" size="15" maxlength="100" required />
+                </p>
+
+                <p id="champ">
+                    <label for="mail_d">Mail pour les discutions clients :</label>
+                    <input type="text" name="mail_d" id="mail_d" size="15" maxlength="100" required />
+                </p>
+
+                <p id="champ">
+                    <label for="desc">Description vendeur :</label>
+                    <textarea name="desc" id="desc" rows="5" cols="70" maxlength="1000" required></textarea>
                 </p>
 
                 <p id="p_envoyer">

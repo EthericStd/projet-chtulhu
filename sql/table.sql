@@ -31,10 +31,18 @@ CREATE TABLE AdresseFacturation
     VilleAdresseFacturation str,
     PaysAdresseFacturation str,
     CodePostalAdresseFacturation CP,
+    PRIMARY KEY (NumAdresseFacturation)
+);
+
+CREATE TABLE PossedeAdrFacturation
+(
     NumClient serial,
-    PRIMARY KEY (NumAdresseFacturation),
+    NumAdresseFacturation serial,
+    PRIMARY KEY (NumAdresseFacturation, NumClient),
+    FOREIGN KEY (NumAdresseFacturation) REFERENCES AdresseFacturation,
     FOREIGN KEY (NumClient) REFERENCES Client
 );
+
 
 CREATE TABLE AdresseLivraison
 (
@@ -45,9 +53,15 @@ CREATE TABLE AdresseLivraison
     VilleAdresseLivraison str,
     PaysAdresseLivraison str,
     CodePostalAdresseLivraison CP,
-    TelephoneAdresseLivraison tel,
+    PRIMARY KEY (NumAdresseLivraison)
+);
+
+CREATE TABLE PossedeAdrLivraison
+(
     NumClient serial,
-    PRIMARY KEY (NumAdresseLivraison),
+    NumAdresseLivraison serial,
+    PRIMARY KEY (NumAdresseLivraison, NumClient),
+    FOREIGN KEY (NumAdresseLivraison) REFERENCES AdresseLivraison,
     FOREIGN KEY (NumClient) REFERENCES Client
 );
 
@@ -55,12 +69,19 @@ CREATE TABLE CartePaiement
 (
     NumCartePaiement serial,
     TypeCartePaiement str,
-    NuméroCartePaiement int,
+    NuméroCartePaiement bigint,
     NomDétenteurCartePaiement str,
     DateExpirationCartePaiement dateCB,
     CryptogrammeCartePaiement int,
+    PRIMARY KEY (NumCartePaiement)
+);
+
+CREATE TABLE PossedeCartePaiement
+(
     NumClient serial,
-    PRIMARY KEY (NumCartePaiement),
+    NumCartePaiement serial,
+    PRIMARY KEY (NumCartePaiement, NumClient),
+    FOREIGN KEY (NumCartePaiement) REFERENCES CartePaiement,
     FOREIGN KEY (NumClient) REFERENCES Client
 );
 
@@ -84,7 +105,6 @@ CREATE TABLE Panier
 CREATE TABLE Article
 (
     NumArticle serial,
-    NomArticle str,
     LibelléArticle str,
     DescriptionArticle bbstr,
     PointsArticle int,

@@ -2,28 +2,57 @@
     <div id="container_section">
         <div id="container_nav">
             <ul>
-                <li id="group">Gérer mon compte</li>
-                <li><a href="#">Mes informations</a></li>
-                <li><a href="#">Changer mon mot de passe</a></li><br/>
-                <li id="group">Ajouter / Modifier</li>
-                <li><a href="#">Moyen de paiement</a></li>
-                <li><a href="#">Adresse de livraison</a></li>
-                <li><a href="#">Adresse de facturation</a></li><br/>
-                <li id="group"><a href='/logout/'>Déconexion</a></li>
+                <li class="group">Gérer mon compte</li>
+                <li><a href="/compte/mes_informations">Mes informations</a></li>
+                <li><a href="/compte/changer_mdp">Changer mon mot de passe</a></li><br/>
+                <li class="group">Ajouter / Modifier</li>
+                <li><a href="/compte/moyens_paiement">Moyen de paiement</a></li>
+                <li><a href="/compte/adresse_livraison">Adresse de livraison</a></li>
+                <li><a href="/compte/adresse_facturation">Adresse de facturation</a></li><br/>
+                {% if vendeur == -1 %}
+                    <li class="group"><a href="/compte/ameliorer_vendeur">Améliorer en compte vendeur</a></li><br/>
+                {%else%}
+                    <li class="group"><a href="/compte/ajout_article">Ajouter un article</a></li><br/>
+                {%endif%}
+                <li class="group"><a href='/logout/'>Déconexion</a></li>
             </ul>
         </div>
 
         <div id="container_article">
-            <ul>
-                <li><i>Nom</i> : {{infos[0]}}</li>
-                <li><i>Prénom</i> : {{infos[1]}}</li>
-                <li><i>Date de naissance</i> : {{infos[2]}}</li>
-                <li><i>AdresseMail</i> : {{infos[3]}}</li>
-                <li><i>Mot de passe</i> : {{infos[4]}}</li>
-                <li><i>Moyens de paiement</i> : <a href="#">Cliquer ici</a></li>
-                <li><i>Adresse de livraison</i> : <a href="#">Cliquer ici</a></li>
-                <li><i>Adresse de facturation</i> : <a href="#">Cliquer ici</a></li>
-            </ul>
+            {% if nb_obj > 0 %}
+            <div id="container_article_1">
+                {% for i in range(nb_obj) %}
+                    {% if i == index %}
+                        <a href="/compte/adresse_livraison/{{i}}/#container_article">{{i}}</a>
+                    {%else%}
+                        <a class="dotted" href="/compte/adresse_livraison/{{i}}/#container_article">{{i}}</a>
+                    {%endif%}
+                {%endfor%}
+            </div>
+            <div id="container_article_4">
+                <a href="/compte/ajout_adresse_livraison">Ajouter une adresse de livraison</a>
+            </div>
+            <div id="container_article_2">
+                <ul>
+                    <li><i>Nom et prénom adresse livraison</i> : {{infos[0]}}</li>
+                    <li><i>Adresse ligne1 adresse livraison</i> : {{infos[1]}}</li>
+                    <li><i>Adresse ligne2 adresse livraison</i> : {{infos[2]}}</li>
+                    <li><i>Ville adresse livraison</i> : {{infos[3]}}</li>
+                    <li><i>Pays adresse livraison</i> : {{infos[4]}}</li>
+                    <li><i>Code postal adresse livraison</i> : {{infos[5]}}</li>
+                </ul>
+            </div>
+            <div id="container_article_3">
+                <form method="post" action="/compte/sup_adr_livraison/">
+                    <input type='hidden' name='num' value='{{infos[6]}}'>
+                    <input id="envoyer" type="submit" value="Supprimer cette adresse de livraison" />
+                </form>
+            </div>
+            {%else%}
+            <div id="container_article_4">
+                <a href="/compte/ajout_adresse_livraison">Ajouter une adresse de livraison</a>
+            </div>
+            {%endif%}
         </div>
     </div>
 </section>

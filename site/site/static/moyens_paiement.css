@@ -1,11 +1,7 @@
-section #flash
-{
-    text-align: center;
-}
-
 #container_section
 {
     margin: auto;
+    height: 330px;
     border: 3px black double;
 }
 
@@ -23,10 +19,7 @@ section #flash
 
 #container_article
 {
-    text-align: left;
-    width: 42%;
     height: 100%;
-    padding-left: 38%;
     line-height: 2em;
 }
 
@@ -55,4 +48,40 @@ i
 #container_section a:hover
 {
     color: #7E0093;
+}
+
+#container_article_1
+{
+    width: 80%;
+    text-align: center;
+}
+
+#container_article_2
+{
+    text-align: left;
+    padding-left: 35%;
+}
+
+#container_article_1 a
+{
+    padding: 0 3px;
+    margin: 0 3px;
+}
+
+.dotted
+{
+
+    border-bottom: 1px black dotted;
+}
+
+#container_article_3
+{
+    width: 80%;
+    text-align: center;
+}
+
+#container_article_4
+{
+    width: 80%;
+    text-align: center;
 }

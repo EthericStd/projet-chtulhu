@@ -1,7 +1,7 @@
 #container_section
 {
     margin: auto;
-    height: 300px;
+    height: 350px;
     border: 3px black double;
 }
 
@@ -19,10 +19,7 @@
 
 #container_article
 {
-    text-align: left;
-    width: 40%;
     height: 100%;
-    padding-left: 40%;
     line-height: 2em;
 }
 
@@ -36,7 +33,7 @@ i
     list-style-type: none;
 }
 
-#group
+.group
 {
     list-style: square;
 }
@@ -51,4 +48,40 @@ i
 #container_section a:hover
 {
     color: #7E0093;
+}
+
+#container_article_1
+{
+    width: 80%;
+    text-align: center;
+}
+
+#container_article_2
+{
+    text-align: left;
+    padding-left: 35%;
+}
+
+#container_article_1 a
+{
+    padding: 0 3px;
+    margin: 0 3px;
+}
+
+.dotted
+{
+
+    border-bottom: 1px black dotted;
+}
+
+#container_article_3
+{
+    width: 80%;
+    text-align: center;
+}
+
+#container_article_4
+{
+    width: 80%;
+    text-align: center;
 }

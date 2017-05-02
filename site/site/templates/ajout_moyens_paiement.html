@@ -1,0 +1,59 @@
+<section>
+    <div id="container_section">
+        <div id="container_nav">
+            <ul>
+                <li class="group">Gérer mon compte</li>
+                <li><a href="/compte/mes_informations">Mes informations</a></li>
+                <li><a href="/compte/changer_mdp">Changer mon mot de passe</a></li><br/>
+                <li class="group">Ajouter / Modifier</li>
+                <li><a href="/compte/moyens_paiement">Moyen de paiement</a></li>
+                <li><a href="/compte/adresse_livraison">Adresse de livraison</a></li>
+                <li><a href="/compte/adresse_facturation">Adresse de facturation</a></li><br/>
+                {% if vendeur == -1 %}
+                    <li class="group"><a href="/compte/ameliorer_vendeur">Améliorer en compte vendeur</a></li><br/>
+                {%else%}
+                    <li class="group"><a href="/compte/ajout_article">Ajouter un article</a></li><br/>
+                {%endif%}
+                <li class="group"><a href='/logout/'>Déconexion</a></li>
+            </ul>
+        </div>
+
+        <div id="container_article">
+            <form method="post" action="/compte/ajout_moyens_paiement/">
+                <p id="champ">
+                    <label for="type_cb">Type carte paiement :</label>
+                    <input type="text" name="type_cb" id="type_cb" size="15" maxlength="100" required />
+                </p>
+
+                <p id="champ">
+                    <label for="numero1">Numéro carte paiement :</label>
+                    <input type="text" name="numero1" id="numero1" size="1" maxlength="4" required />
+                    <input type="text" name="numero2" id="numero2" size="1" maxlength="4" required />
+                    <input type="text" name="numero3" id="numero3" size="1" maxlength="4" required />
+                    <input type="text" name="numero4" id="numero4" size="1" maxlength="4" required />
+                </p>
+
+                <p id="champ">
+                    <label for="nom">Nom détenteur carte paiement :</label>
+                    <input type="text" name="nom" id="nom" size="15" maxlength="100" required />
+                </p>
+
+                <p id="champ">
+                    <label for="date_cb1">Date expiration carte paiement :</label>
+                    <input type="text" name="date_cb1" id="date_cb1" size="1" maxlength="2" required />
+                    <input type="text" name="date_cb2" id="date_cb2" size="2" maxlength="4" required />
+                </p>
+
+                <p id="champ">
+                    <label for="crypto">Cryptogramme carte paiement :</label>
+                    <input type="text" name="crypto" id="crypto" size="2" maxlength="3" required />
+                </p>
+
+                <p id="p_envoyer">
+                    <input id="envoyer" type="submit" value="Envoyer" />
+                </p>
+
+            </form>
+        </div>
+    </div>
+</section>

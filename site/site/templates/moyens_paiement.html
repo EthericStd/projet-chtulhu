@@ -23,34 +23,33 @@
             <div id="container_article_1">
                 {% for i in range(nb_obj) %}
                     {% if i == index %}
-                        <a href="/compte/adresse_facturation/{{i}}/#container_article">{{i}}</a>
+                        <a href="/compte/moyens_paiement/{{i}}/#container_article">{{i}}</a>
                     {%else%}
-                        <a class="dotted" href="/compte/adresse_facturation/{{i}}/#container_article">{{i}}</a>
+                        <a class="dotted" href="/compte/moyens_paiement/{{i}}/#container_article">{{i}}</a>
                     {%endif%}
                 {%endfor%}
             </div>
             <div id="container_article_4">
-                <a href="/compte/ajout_adresse_facturation">Ajouter une adresse de facturation</a>
+                <a href="/compte/ajout_moyens_paiement">Ajouter un moyen de paiement</a>
             </div>
             <div id="container_article_2">
                 <ul>
-                    <li><i>Nom et prénom adresse facturation</i> : {{infos[0]}}</li>
-                    <li><i>Adresse ligne1 adresse facturation</i> : {{infos[1]}}</li>
-                    <li><i>Adresse ligne2 adresse facturation</i> : {{infos[2]}}</li>
-                    <li><i>Ville adresse facturation</i> : {{infos[3]}}</li>
-                    <li><i>Pays adresse facturation</i> : {{infos[4]}}</li>
-                    <li><i>Code postal adresse facturation</i> : {{infos[5]}}</li>
+                    <li><i>Type carte paiement</i> : {{infos[0]}}</li>
+                    <li><i>Numéro carte paiement</i> : {{infos[1]}}</li>
+                    <li><i>Nom détenteur carte paiement</i> : {{infos[2]}}</li>
+                    <li><i>Date expiration carte paiement</i> : {{infos[3]}}</li>
+                    <li><i>Cryptogramme carte paiement</i> : {{infos[4]}}</li>
                 </ul>
             </div>
             <div id="container_article_3">
-                <form method="post" action="/compte/sup_adr_facturation/">
-                    <input type='hidden' name='num' value='{{infos[6]}}'>
-                    <input id="envoyer" type="submit" value="Supprimer cette adresse de facturation" />
+                <form method="post" action="/compte/sup_moyens_paiement/">
+                    <input type='hidden' name='num' value='{{infos[5]}}'>
+                    <input id="envoyer" type="submit" value="Supprimer ce moyen de paiement" />
                 </form>
             </div>
             {%else%}
             <div id="container_article_4">
-                <a href="/compte/ajout_adresse_facturation">Ajouter une adresse de facturation</a>
+                <a href="/compte/ajout_moyens_paiement">Ajouter un moyen de paiement</a>
             </div>
             {%endif%}
         </div>
