@@ -12,8 +12,12 @@ INSERT INTO Vendeur (NomVendeur,
     ('Loréal', 'Rue des setib', 'lol@c', 'lol@d', 'Bonjour a tt et a ts cest dbx9', 1);
 
 INSERT INTO Article (NumVendeur, LibelléArticle, DescriptionArticle) VALUES
-    (1, 'carte_mere', 'carte msi blablabla 360 no scope mdr lol'),
-    (1, 'carte_graphique', 'carte gtx blablabla 360 no scope mdr lol');
+    (1, 'Carte MSI', 'carte msi blablabla 360 no scope mdr lol'),
+    (1, 'Carte GTX', 'carte gtx blablabla 360 no scope mdr lol');
+
+INSERT INTO Tags (NomTags, ValeurTags, NumArticle) VALUES
+    ('type composant', 'Carte_Mere', 1),
+    ('type composant', 'Carte_Graphique', 2);
 
 INSERT INTO ArticlePanier (NumPanier, NumArticle, NbArticlePanier) VALUES
     (1, 1, 3),

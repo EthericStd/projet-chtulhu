@@ -30,18 +30,23 @@ def accueil():
 
 @app.route('/articles/')
 def articles():
+    section = "articles.html"
+    l_css = ["articles.css"]
+    cur.execute("SELECT numArticle, LibelléArticle, DescriptionArticle FROM Article")
+    l_articles = cur.fetchall()
+
+    N = len(l_articles)
+    for i in range(N):
+        cur.execute("SELECT ValeurTags FROM Tags\
+                    WHERE NumArticle = '"+ str(l_articles[i][0]) + "'\
+                    AND NomTags =  'type composant'; ")
+        nom_img = cur.fetchall()[0][0]
+        l_articles[i] = list(l_articles[i]) + [nom_img]
+    print(l_articles)
     if ('user' in session):
-        section = "articles.html"
-        l_css = ["articles.css"]
-        cur.execute("SELECT numArticle, LibelléArticle FROM Article")
-        l_articles = cur.fetchall()
         return render_template('layout_base.html', section=section,
                                l_css=l_css, articles=l_articles,
                                user=session['user'])
-    section = "articles.html"
-    l_css = ["articles.css"]
-    cur.execute("SELECT numArticle, LibelléArticle FROM Article")
-    l_articles = cur.fetchall()
     return render_template('layout_base.html', section=section,
                            l_css=l_css, articles=l_articles)
 
@@ -493,8 +498,6 @@ def login():
         l_css = ["login.css"]
         return render_template('layout_base.html',
                                section=section, l_css=l_css)
-
-
 
 
 @app.route('/subscription/', methods=['GET', 'POST'])

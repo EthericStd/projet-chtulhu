@@ -19,19 +19,17 @@ section p
 
 #container_articles
 {
-	border: 1px solid blue;
-	width: 1100px;
+	width: 1000px;
 	margin: auto;
 }
 
 /*Article*/
 article
 {
-	/*background-color: rgb(250,248,236);*/
-	background-color: rgb(128,128,128);
-	border: 1px solid purple;
-	height: 350px;
-	margin: 100px 0;
+	background-color: rgb(220, 220, 250);
+	height: 300px;
+	margin: 50px 0;
+	box-shadow: 1px 1px 5px;
 }
 
 #img_article
@@ -40,7 +38,6 @@ article
 	background-repeat: repeat-y;
 	background-size: contain;
 	background-position: center;
-	border: 1px solid purple;
 	width: 30%;
 	height:80%;
 	float: left;
@@ -49,23 +46,24 @@ article
 #text_article
 {
 	font-family: 'ABeeZee', sans-serif;
-	border: 1px solid blue;
 	height: 80%;
 }
-
-/*#text_article p
-{
-	position: relative;
-	left: 10px;
-	font-size: 1em;
-}*/
 
 #container_bouton
 {
 	text-align: right;
 	padding: 10px 30px;
+	font-size: 1.5em;
 }
 
+#container_bouton a
+{
+	border: 3px black double;
+	padding: 2px 15px;
+	color: black;
+	background-color: white;
+	box-shadow: 1px 1px 5px black inset;
+}
 
 hr
 {
