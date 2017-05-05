@@ -9,7 +9,7 @@ INSERT INTO Vendeur (NomVendeur,
                     MailDiscutionVendeur,
                     DescriptionVendeur,
                     NumClient) VALUES
-    ('Loréal', 'Rue des setib', 'lol@c', 'lol@d', 'Bonjour a tt et a ts cest dbx9', 1);
+    ('Loreal', 'Rue des setib', 'lol@c', 'lol@d', 'Bonjour a tt et a ts cest dbx9', 1);
 
 INSERT INTO Article (NumVendeur, LibelléArticle, DescriptionArticle) VALUES
     (1, 'Carte MSI', 'carte msi blablabla 360 no scope mdr lol'),

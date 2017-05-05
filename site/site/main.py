@@ -404,7 +404,7 @@ def define_adr_livraison():
 def define_moyens_paiement():
     num = request.form['num']
     session['paiement'] = num
-    flash(u"Moyen de paiement définie :)")
+    flash(u"Moyen de paiement défini :)")
     return redirect('/compte/moyens_paiement/')
 
 
@@ -555,6 +555,9 @@ def login():
 def logout():
     session.pop("user", None)
     session.pop("vendeur", None)
+    session.pop("livraison", None)
+    session.pop("facturation", None)
+    session.pop("paiement", None)
     return redirect("/")
 
 
